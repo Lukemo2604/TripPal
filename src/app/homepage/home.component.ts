@@ -8,9 +8,4 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
-    Nav_login(): void {
-        this.router.navigate(['/login']); // Ensure '/login' is a valid route in your app
-      }
-
-}
+export class HomeComponent {}
