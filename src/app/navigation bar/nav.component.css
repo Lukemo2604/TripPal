@@ -15,7 +15,7 @@ body, html {
 
 /* Top Navigation Bar - Flush with Top */
 .topnav {
-    background-color: #f3fdff;
+    background-color: #ffffff;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -60,7 +60,8 @@ body, html {
     position: fixed;
     top: 50px; /* Move it down below the topnav */
     left: 0;
-    background-color: #f3fdff;
+    background-color: #ffffff;
+    font-family: "Body_font", sans-serif;
     overflow-x: hidden;
     padding-top: 20px; /* Extra spacing inside */
     transition: 0.5s;
@@ -95,3 +96,6 @@ body, html {
     margin-top: 50px; /* Space for fixed navbar */
     padding: 20px;
 }
+
+
+
