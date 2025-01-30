@@ -1,0 +1,85 @@
+@font-face {
+    font-family: "Header_font";
+    src: url("/Fonts/Bricolage Grotesque.ttf") format("truetype");
+    font-family: "Body_font";
+    src: url("/Fonts/Anek Devanagari.ttf") format("truetype");
+}
+
+.home-container {
+    text-align: center;
+    padding: 50px 20px;
+    font-family: Arial, sans-serif;
+    background-color: #ebf5ff ;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #eef8ff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.slogan-icon img {
+    height: 80px; /* Adjust as needed */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #00ACFF;
+    color: #E4BDF2;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #E4BDF2;
+    color: #00ACFF;
+}
+
+h1 {
+    color: #00ACFF;
+    text-decoration: none;
+    padding: 10px 2px;
+    font-size: 65px;
+    font-family: "Header_font", sans-serif;
+}
+
+h2 { 
+    color: #E4BDF2;
+    text-decoration: none;
+    padding: 1px 40px;
+    font-size: 18px;
+    font-family: "Body_font", sans-serif;
+
+}
+
+p {
+    color: #E4BDF2;
+    text-decoration: none;
+    padding: 14px 40px;
+    font-size: 15px;
+    font-family: "Body_font", sans-serif;
+}
