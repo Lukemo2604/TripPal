@@ -1,0 +1,34 @@
+<div class="home-container">
+    <h1>Log In</h1>
+    <p class="subtitle">Access your account and continue your journey.</p>
+
+    <div class="form-container">
+        <form (ngSubmit)="login()">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    class="form-control"
+                    placeholder="Enter username"
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter password"
+                    required
+                />
+            </div>
+
+            <button type="submit" class="btn-submit">Log In</button>
+        </form>
+    </div>
+</div>

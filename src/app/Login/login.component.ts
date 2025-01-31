@@ -2,10 +2,15 @@ import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'loginpage',
+  selector: 'login',
   standalone: true,
   imports: [RouterOutlet, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class loginComponent {}
+export class LoginComponent {
+  login() {
+    return true
+  }
+  
+}

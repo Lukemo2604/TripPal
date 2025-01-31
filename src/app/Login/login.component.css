@@ -1,0 +1,77 @@
+@font-face {
+    font-family: "Header_font";
+    src: url("/Fonts/Bricolage Grotesque.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Body_font";
+    src: url("/Fonts/Anek Devanagari.ttf") format("truetype");
+}
+
+.home-container {
+    text-align: center;
+    padding: 50px 20px;
+    font-family: "Body_font", sans-serif;
+    background-color: #ebf5ff;
+}
+
+.form-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #eef8ff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    display: block; /* Ensures label takes up full width */
+    margin-bottom: 8px; /* Adds space between label and input */
+    font-weight: bold;
+    color: #00ACFF;
+    font-family: "Body_font", sans-serif;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+.btn-submit {
+    background-color: #00ACFF;
+    color: #E4BDF2;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.btn-submit:hover {
+    background-color: #E4BDF2;
+    color: #00ACFF;
+}
+
+h1 {
+    color: #00ACFF;
+    text-decoration: none;
+    padding: 10px 2px;
+    font-size: 65px;
+    font-family: "Header_font", sans-serif;
+}
+
+.subtitle {
+    color: #E4BDF2;
+    font-size: 18px;
+    font-family: "Body_font", sans-serif;
+}
