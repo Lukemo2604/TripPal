@@ -2,33 +2,45 @@
     <h1>Log In</h1>
     <p class="subtitle">Access your account and continue your journey.</p>
 
+    <!-- Login Form -->
     <div class="form-container">
         <form (ngSubmit)="login()">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    class="form-control"
-                    placeholder="Enter username"
-                    required
-                />
+                <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required />
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="form-control"
-                    placeholder="Enter password"
-                    required
-                />
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required />
             </div>
 
             <button type="submit" class="btn-submit">Log In</button>
+        </form>
+
+        <p class="toggle-text">Don't have an account? <button (click)="toggleSignupForm()" class="btn-toggle">Create Account</button></p>
+    </div>
+
+    <!-- Sign-Up Form (Initially Hidden) -->
+    <div class="form-container signup-container" [class.show]="isSignupVisible">
+        <h2>Create an Account</h2>
+        <form (ngSubmit)="signup()">
+            <div class="form-group">
+                <label for="new-username">Username</label>
+                <input type="text" id="new-username" name="new-username" class="form-control" placeholder="Choose a username" required />
+            </div>
+
+            <div class="form-group">
+                <label for="new-email">Email</label>
+                <input type="email" id="new-email" name="new-email" class="form-control" placeholder="Enter your email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="new-password">Password</label>
+                <input type="password" id="new-password" name="new-password" class="form-control" placeholder="Create a password" required />
+            </div>
+
+            <button type="submit" class="btn-submit">Sign Up</button>
         </form>
     </div>
 </div>

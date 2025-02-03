@@ -22,6 +22,15 @@
     background-color: #eef8ff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.signup-container {
+    display: none; /* Initially hidden */
+}
+
+.signup-container.show {
+    display: block; /* Show when toggled */
 }
 
 form {
@@ -30,8 +39,8 @@ form {
 }
 
 label {
-    display: block; /* Ensures label takes up full width */
-    margin-bottom: 8px; /* Adds space between label and input */
+    display: block;
+    margin-bottom: 8px;
     font-weight: bold;
     color: #00ACFF;
     font-family: "Body_font", sans-serif;
@@ -44,7 +53,6 @@ input {
     border-radius: 5px;
     font-size: 16px;
 }
-
 
 .btn-submit {
     background-color: #00ACFF;
@@ -70,8 +78,35 @@ h1 {
     font-family: "Header_font", sans-serif;
 }
 
+h2 {
+    color: #00ACFF;
+    text-decoration: none;
+    padding: 10px 2px;
+    font-size: 30px;
+    font-family: "Header_font", sans-serif;
+}
+
 .subtitle {
     color: #E4BDF2;
     font-size: 18px;
     font-family: "Body_font", sans-serif;
+}
+
+.toggle-text {
+    color: #E4BDF2;
+    font-size: 18px;
+    font-family: "Body_font", sans-serif;
+}
+
+.btn-toggle {
+    background: none;
+    border: none;
+    color: #00ACFF;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-toggle:hover {
+    text-decoration: underline;
 }
