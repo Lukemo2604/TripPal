@@ -1,0 +1,37 @@
+<div class="support-container">
+    <h1>Support</h1>
+    <p class="subtitle">Need help? Submit an issue or contact us directly.</p>
+
+    <!-- Contact Info Section -->
+    <div class="contact-info">
+        <h2>Contact Us</h2>
+        <p>Email: <a href="mailto:trippal.contact@gmail.com">trippal.contact&#64;gmail.com</a></p>
+        <p>Phone: +44 771 196 0687</p>
+        <p>Address:Belfast, NI</p>
+    </div>
+
+    <!-- Issue Submission Form -->
+    <div class="form-container">
+        <h2>Submit an Issue</h2>
+        <form (ngSubmit)="submitIssue()">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" [(ngModel)]="supportData.name" class="form-control" placeholder="Enter your name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" [(ngModel)]="supportData.email" class="form-control" placeholder="Enter your email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" [(ngModel)]="supportData.message" class="form-control" placeholder="Describe your issue..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+
+        <p *ngIf="submissionSuccess" class="success-message">Thank you! Your issue has been submitted.</p>
+    </div>
+</div>
