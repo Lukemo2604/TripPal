@@ -27,6 +27,7 @@ export class SupportComponent {
     
     // Reset form after submission
     this.supportData = { name: '', email: '', message: '' };
+
   }
 }
 
