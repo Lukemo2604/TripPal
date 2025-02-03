@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common'; // ✅ Import this to use ngClass
+import { CommonModule } from '@angular/common';
+import { SupportComponent } from "../support/support.component"; // ✅ Import this to use ngClass
 
 @Component({
   selector: 'login',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterModule], // ✅ Add CommonModule here
+  imports: [CommonModule, RouterOutlet, RouterModule, SupportComponent], // ✅ Add CommonModule here
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
