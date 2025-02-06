@@ -1,0 +1,29 @@
+<div class="account-container">
+    <!-- Sidebar Card -->
+    <div class="sidebar">
+        <button (click)="setActiveSection('about')" [class.active]="activeSection === 'about'">About</button>
+        <button (click)="setActiveSection('preferences')" [class.active]="activeSection === 'preferences'">Preferences</button>
+        <button (click)="setActiveSection('settings')" [class.active]="activeSection === 'settings'">Settings</button>
+        <button (click)="logout()">Logout</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <div *ngIf="activeSection === 'about'">
+            <h2>About</h2>
+            <p>Welcome to your account page. Here you can manage your profile settings.</p>
+        </div>
+
+        <div *ngIf="activeSection === 'preferences'">
+            <h2>Preferences</h2>
+            <p>Update your preferences here, such as notifications and privacy settings.</p>
+        </div>
+
+        <div *ngIf="activeSection === 'settings'">
+            <h2>Settings</h2>
+            <p>Welcome to your Settings page. Here you can manage your app settings.</p>
+        </div>
+        
+    </div>
+</div>
+<support></support>

@@ -1,0 +1,98 @@
+@font-face {
+    font-family: "Header_font";
+    src: url("/Fonts/Bricolage Grotesque.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Body_font";
+    src: url("/Fonts/Anek Devanagari.ttf") format("truetype");
+}
+
+.account-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 50px;
+    background-color: #ebf5ff;
+    height: 100vh;
+    margin-top: 80px; /* ✅ Adds space below the navbar */
+}
+
+
+/* Sidebar Card */
+.sidebar {
+    background: #eef8ff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar button {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    font-family: "Body_font", sans-serif;
+    color: #00ACFF;
+    cursor: pointer;
+    text-align: center;
+}
+
+.sidebar button:hover, 
+.sidebar button.active {
+    background: #00ACFF;
+    color: #E4BDF2;
+    border-radius: 5px;
+}
+
+/* Main Content Area */
+.content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    font-family: "Body_font", sans-serif;
+}
+
+h2 {
+    color: #00ACFF;
+    font-family: "Header_font", sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .account-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 50px;
+    background-color: #ebf5ff;
+    height: 100vh;
+    margin-top: 80px; /* ✅ Adds space below the navbar */
+}
+
+
+    .sidebar {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .sidebar button {
+        width: auto;
+    }
+
+    .content {
+        width: 90%;
+    }
+}
