@@ -33,8 +33,11 @@ export class AuthService {
   // 5) Logout
   logout() {
     localStorage.removeItem('token');
-    this.router.navigate(['/']);
+    this.router.navigate(['/']).then(() => {
+      window.location.reload();
+    });
   }
+  
 
   register(username: string, email: string, password: string) {
     return this.http.post(`${this.baseUrl}/register`, {
