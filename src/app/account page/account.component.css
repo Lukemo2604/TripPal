@@ -16,9 +16,8 @@
     padding: 50px;
     background-color: #ebf5ff;
     height: 100vh;
-    margin-top: 80px; /* ✅ Adds space below the navbar */
+    margin-top: 80px; /* Adds space below the navbar */
 }
-
 
 /* Sidebar Card */
 .sidebar {
@@ -64,25 +63,120 @@
 h2 {
     color: #00ACFF;
     font-family: "Header_font", sans-serif;
+    margin-bottom: 15px;
 }
 
-/* Responsive Design */
+/* ============= NEW STYLES FOR FORMS, LISTS, ETC. ============= */
+
+/* Generic form styling */
+.content form {
+    margin-bottom: 20px;
+}
+
+.content form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #00ACFF;
+    font-weight: 600;
+}
+
+.content form input,
+.content form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: "Body_font", sans-serif;
+}
+
+.content form button {
+    background-color: #00ACFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: "Body_font", sans-serif;
+    margin-right: 5px;
+}
+
+.content form button:hover {
+    background-color: #007abf; /* Darker shade on hover */
+}
+
+.content p {
+    font-family: "Body_font", sans-serif;
+    color: #333;
+}
+
+/* Lists and list items */
+.content ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 20px;
+}
+
+.content li {
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 0;
+}
+
+.content li button {
+    margin-left: 10px;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+/* Headings for smaller sections */
+.content h4 {
+    color: #00ACFF;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-family: "Header_font", sans-serif;
+}
+
+.content h5 {
+    color: #00ACFF;
+    margin-bottom: 10px;
+    font-family: "Header_font", sans-serif;
+}
+
+/* ============= FAMILY-MEMBER SECTION ============= */
+.family-member {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+
+.family-member h4 {
+    margin-bottom: 10px;
+    font-family: "Header_font", sans-serif;
+    color: #00ACFF;
+}
+
+.family-member button {
+    margin: 0 5px 5px 0;
+}
+
+/* ============= RESPONSIVE DESIGN ============= */
 @media (max-width: 768px) {
     .account-container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 40px;
-    padding: 50px;
-    background-color: #ebf5ff;
-    height: 100vh;
-    margin-top: 80px; /* ✅ Adds space below the navbar */
-}
-
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        padding: 50px;
+        background-color: #ebf5ff;
+        height: auto; /* Change from 100vh to auto so content can expand */
+        margin-top: 80px;
+    }
 
     .sidebar {
         width: 100%;
-        display: flex;
         flex-direction: row;
         justify-content: center;
         gap: 10px;
@@ -96,3 +190,45 @@ h2 {
         width: 90%;
     }
 }
+
+/* ========== BUTTON STYLES ========== */
+
+/* Generic base for all buttons */
+button {
+    font-family: "Body_font", sans-serif; /* your chosen body font */
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin: 4px 4px 4px 0; /* small spacing around */
+    cursor: pointer;
+  }
+  
+  /* Primary Button: e.g., "Add", "Edit", "Save", "Edit Name" */
+  .primary-btn {
+    background-color: #00ACFF; /* your brand color */
+    color: #ffffff;
+  }
+  .primary-btn:hover {
+    background-color: #007ABF; /* darker on hover */
+  }
+  
+  /* Danger Button: e.g., "Delete", "Remove Family Member" */
+  .danger-btn {
+    background-color: #FF5C5C;
+    color: #ffffff;
+  }
+  .danger-btn:hover {
+    background-color: #CC0000; /* deeper red on hover */
+  }
+  
+  /* Secondary Button: e.g., "Cancel" */
+  .secondary-btn {
+    background-color: #E0E0E0;
+    color: #333333;
+  }
+  .secondary-btn:hover {
+    background-color: #C0C0C0; /* slightly darker gray on hover */
+  }
+  
+

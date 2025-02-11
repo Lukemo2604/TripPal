@@ -4,22 +4,19 @@ import { LoginComponent } from './Login/login.component';
 import { SupportComponent } from './support/support.component';
 import { AccountComponent } from './account page/account.component';
 
-export const routes: Routes = [
-    {
-        path: '',
-        component: HomeComponent
-      },
-      {
-        path: 'login',
-        component: LoginComponent
-      },
+// Import the guard
+import { AuthGuard } from './guards/auth.guard';
 
-      {
-        path: 'support',
-        component: SupportComponent
-      },
-      {
-        path: 'account',
-        component: AccountComponent
-      }
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'support', component: SupportComponent },
+
+  {
+    path: 'account',
+    component: AccountComponent,
+    canActivate: [AuthGuard],  // <-- This protects the route
+  },
 ];
+
+

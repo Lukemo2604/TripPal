@@ -1,29 +1,234 @@
 <div class="account-container">
     <!-- Sidebar Card -->
     <div class="sidebar">
-        <button (click)="setActiveSection('about')" [class.active]="activeSection === 'about'">About</button>
-        <button (click)="setActiveSection('preferences')" [class.active]="activeSection === 'preferences'">Preferences</button>
-        <button (click)="setActiveSection('settings')" [class.active]="activeSection === 'settings'">Settings</button>
-        <button (click)="logout()">Logout</button>
+      <button
+        class="primary-btn"
+        (click)="setActiveSection('about')"
+        [class.active]="activeSection === 'about'"
+      >
+        About
+      </button>
+      <button
+        class="primary-btn"
+        (click)="setActiveSection('preferences')"
+        [class.active]="activeSection === 'preferences'"
+      >
+        Preferences
+      </button>
+      <button
+        class="primary-btn"
+        (click)="setActiveSection('family')"
+        [class.active]="activeSection === 'family'"
+      >
+        Family Management
+      </button>
+      <button class="danger-btn" (click)="logout()">Logout</button>
     </div>
-
+  
     <!-- Main Content Area -->
     <div class="content">
-        <div *ngIf="activeSection === 'about'">
-            <h2>About</h2>
-            <p>Welcome to your account page. Here you can manage your profile settings.</p>
+      <!-- ABOUT SECTION -->
+      <div *ngIf="activeSection === 'about'">
+        <h2>About</h2>
+        <p>Welcome to your account page. Here you can manage your profile settings.</p>
+  
+        <div *ngIf="userData; else loading">
+          <form (ngSubmit)="saveAbout()">
+            <div>
+              <label for="username">Username:</label>
+              <input id="username" [(ngModel)]="editUser.username" name="username" required />
+            </div>
+  
+            <div>
+              <label for="email">Email:</label>
+              <input id="email" [(ngModel)]="editUser.email" name="email" type="email" required />
+            </div>
+  
+            <div>
+              <label for="aboutField">About:</label>
+              <textarea
+                id="aboutField"
+                [(ngModel)]="editUser.about"
+                name="aboutField"
+                rows="3"
+              ></textarea>
+            </div>
+  
+            <!-- New fields -->
+            <div>
+              <label for="address">Address:</label>
+              <input
+                id="address"
+                [(ngModel)]="editUser.address"
+                name="address"
+              />
+            </div>
+  
+            <div>
+              <label for="phone">Phone:</label>
+              <input
+                id="phone"
+                [(ngModel)]="editUser.phone"
+                name="phone"
+                type="tel"
+              />
+            </div>
+  
+            <div>
+              <label for="postcode">Postcode:</label>
+              <input
+                id="postcode"
+                [(ngModel)]="editUser.postcode"
+                name="postcode"
+              />
+            </div>
+  
+            <div>
+              <label for="dob">Date of Birth:</label>
+              <input
+                id="dob"
+                [(ngModel)]="editUser.dob"
+                name="dob"
+                type="date"
+              />
+            </div>
+  
+            <button class="primary-btn" type="submit">Save About Info</button>
+          </form>
         </div>
-
-        <div *ngIf="activeSection === 'preferences'">
-            <h2>Preferences</h2>
-            <p>Update your preferences here, such as notifications and privacy settings.</p>
+      </div>
+  
+      <!-- PREFERENCES SECTION -->
+      <div *ngIf="activeSection === 'preferences'">
+        <h2>Preferences</h2>
+        <p>Update your personal preferences here.</p>
+  
+        <div *ngIf="userData; else loading">
+          <!-- Display current preferences as a list -->
+          <ul>
+            <li *ngFor="let pref of userData.preferences; let i = index">
+              {{ pref }}
+              <button class="primary-btn" (click)="editPref(i)">Edit</button>
+              <button class="danger-btn" (click)="deletePref(i)">Delete</button>
+            </li>
+          </ul>
+  
+          <!-- If editing a preference, show a small edit form -->
+          <div *ngIf="isEditingPrefIndex !== null">
+            <h4>Edit Preference</h4>
+            <form (ngSubmit)="savePref()">
+              <input
+                [(ngModel)]="editPrefValue"
+                name="editPrefValue"
+                required
+              />
+              <button class="primary-btn" type="submit">Save</button>
+              <button class="secondary-btn" (click)="cancelPrefEdit()" type="button">Cancel</button>
+            </form>
+          </div>
+  
+          <!-- Add new preference form -->
+          <h4>Add New Preference</h4>
+          <form (ngSubmit)="addPref()">
+            <input
+              [(ngModel)]="newPref"
+              name="newPref"
+              placeholder="e.g. 'cooking'"
+              required
+            />
+            <button class="primary-btn" type="submit">Add</button>
+          </form>
         </div>
-
-        <div *ngIf="activeSection === 'settings'">
-            <h2>Settings</h2>
-            <p>Welcome to your Settings page. Here you can manage your app settings.</p>
+      </div>
+  
+      <!-- FAMILY SECTION -->
+      <div *ngIf="activeSection === 'family'">
+        <h2>Family Management</h2>
+        <p>Add, edit, and remove family members and their preferences.</p>
+  
+        <div *ngIf="userData; else loading">
+          <!-- Display all family members -->
+          <div *ngFor="let member of userData.familyMembers; let mIndex = index" class="family-member">
+            <h4>{{ member.name }}</h4>
+  
+            <!-- Edit family member name -->
+            <form (ngSubmit)="saveFamilyMemberName(mIndex)" *ngIf="editMemberIndex === mIndex; else viewMemberName">
+              <input
+                [(ngModel)]="editMemberName"
+                name="editMemberName"
+                required
+              />
+              <button class="primary-btn" type="submit">Save</button>
+              <button class="secondary-btn" type="button" (click)="cancelMemberEdit()">Cancel</button>
+            </form>
+            <ng-template #viewMemberName>
+              <button class="primary-btn" (click)="startEditMember(mIndex, member.name)">Edit Name</button>
+            </ng-template>
+  
+            <!-- Family member preferences -->
+            <div *ngIf="member.preferences && member.preferences.length > 0; else noFamPrefs">
+              <ul>
+                <li *ngFor="let famPref of member.preferences; let fpIndex = index">
+                  {{ famPref }}
+                  <button class="primary-btn" (click)="editFamilyPref(mIndex, fpIndex)">Edit</button>
+                  <button class="danger-btn" (click)="deleteFamilyPref(mIndex, fpIndex)">Delete</button>
+                </li>
+              </ul>
+            </div>
+            <ng-template #noFamPrefs>
+              <p>No preferences for this family member yet.</p>
+            </ng-template>
+  
+            <!-- Edit existing family preference -->
+            <div *ngIf="isEditingFamPref?.memberIndex === mIndex && isEditingFamPref?.prefIndex !== null">
+              <h5>Edit Preference</h5>
+              <form (ngSubmit)="saveFamilyPref()">
+                <input
+                  [(ngModel)]="editFamilyPrefValue"
+                  name="editFamilyPrefValue"
+                  required
+                />
+                <button class="primary-btn" type="submit">Save</button>
+                <button class="secondary-btn" (click)="cancelFamilyPrefEdit()" type="button">Cancel</button>
+              </form>
+            </div>
+  
+            <!-- Add new preference to this family member -->
+            <h5>Add Preference</h5>
+            <form (ngSubmit)="addFamilyPref(mIndex)">
+              <input
+                [(ngModel)]="newFamilyPref"
+                name="newFamilyPref"
+                placeholder="e.g. 'movies'"
+                required
+              />
+              <button class="primary-btn" type="submit">Add</button>
+            </form>
+  
+            <!-- Remove family member entirely -->
+            <button class="danger-btn" (click)="deleteFamilyMember(mIndex)">Remove Family Member</button>
+          </div>
+  
+          <!-- Add new family member -->
+          <h4>Add New Family Member</h4>
+          <form (ngSubmit)="addFamilyMember()">
+            <input
+              [(ngModel)]="newMemberName"
+              name="newMemberName"
+              placeholder="Family member name"
+              required
+            />
+            <button class="primary-btn" type="submit">Add Member</button>
+          </form>
         </div>
-        
+      </div>
+  
     </div>
-</div>
-<support></support>
+  </div>
+  
+  <ng-template #loading>
+    <p>Loading user data...</p>
+  </ng-template>
+  
+  <support></support>
+  
