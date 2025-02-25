@@ -1,0 +1,88 @@
+.trip-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    font-family: sans-serif;
+  }
+  
+  /* Sidebar on the left */
+  .sidebar {
+    width: 300px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .sidebar label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .sidebar input,
+  .sidebar textarea {
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    padding: 6px;
+    font-size: 14px;
+  }
+  
+  .map-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Placeholder for the map container */
+  .map-placeholder {
+    width: 100%;
+    height: 350px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #bbb;
+  }
+  
+  .itinerary {
+    background: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .itinerary ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .primary-btn {
+    background-color: #00ACFF;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 6px;
+  }
+  .primary-btn:hover {
+    background-color: #007ABF;
+  }
+  
+  .danger-btn {
+    background-color: #FF5C5C;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 6px;
+  }
+  .danger-btn:hover {
+    background-color: #CC0000;
+  }
+  

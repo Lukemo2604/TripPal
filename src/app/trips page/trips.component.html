@@ -1,0 +1,31 @@
+<!-- trips.component.html -->
+<div class="trip-list-container">
+    <h2>My Trips</h2>
+    <button class="primary-btn" (click)="openCreateTripModal()">Create Trip</button>
+  
+    <input [(ngModel)]="filterText" placeholder="Filter trips..." />
+  
+    <div class="trip-card" *ngFor="let trip of trips | tripFilter: filterText" (click)="goToTrip(trip._id)">
+      <h3>{{ trip.location }}</h3>
+      <p>{{ trip.startDate }} - {{ trip.endDate }}</p>
+      <!-- Possibly show more info like flights, accommodation -->
+    </div>
+  
+    <!-- Create Trip Modal (conditional) -->
+    <div class="modal" *ngIf="showCreateModal">
+      <div class="modal-content">
+        <h3>Create a new trip</h3>
+        <form (ngSubmit)="submitCreateTrip()">
+          <input [(ngModel)]="newTrip.location" name="location" placeholder="Location" required />
+          <input [(ngModel)]="newTrip.startDate" name="startDate" type="date" />
+          <input [(ngModel)]="newTrip.endDate" name="endDate" type="date" />
+          <input [(ngModel)]="newTrip.flights" name="flights" placeholder="Flights" />
+          <input [(ngModel)]="newTrip.accommodation" name="accommodation" placeholder="Accommodation" />
+          <!-- etc. familyAttending can be empty for now, user will set in detail page? -->
+          <button class="primary-btn" type="submit">Create</button>
+          <button class="secondary-btn" (click)="closeCreateTripModal()" type="button">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

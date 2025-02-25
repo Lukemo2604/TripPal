@@ -1,0 +1,74 @@
+<div class="trip-container" *ngIf="editTrip">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Edit Trip: {{ editTrip.location }}</h2>
+  
+      <label>Location:
+        <input [(ngModel)]="editTrip.location" />
+      </label>
+  
+      <label>Start Date:
+        <input [(ngModel)]="editTrip.startDate" type="date" />
+      </label>
+  
+      <label>End Date:
+        <input [(ngModel)]="editTrip.endDate" type="date" />
+      </label>
+  
+      <label>Flights:
+        <input [(ngModel)]="editTrip.flights" />
+      </label>
+  
+      <label>Accommodation:
+        <input [(ngModel)]="editTrip.accommodation" />
+      </label>
+  
+      <label>Budget:
+        <input [(ngModel)]="editTrip.budget" type="number" />
+      </label>
+  
+      <label>Notes:
+        <textarea [(ngModel)]="editTrip.notes"></textarea>
+      </label>
+  
+      <!-- FamilyAttending (if you have an array of them) -->
+      <h4>Family Attending</h4>
+      <div *ngIf="editTrip.familyAttending?.length; else noFam">
+        <div *ngFor="let fam of editTrip.familyAttending">
+          <input type="checkbox" [(ngModel)]="fam.attending" /> {{ fam.name }}
+        </div>
+      </div>
+      <ng-template #noFam>
+        <p>No family members listed.</p>
+      </ng-template>
+  
+      <button class="primary-btn" (click)="saveTrip()">Save</button>
+    </div>
+  
+    <!-- Map + itinerary area -->
+    <div class="map-area">
+      <!-- Actual map. If using @angular/google-maps:
+      <google-map
+        [center]="mapCenter"
+        [zoom]="14"
+        (mapClick)="onMapClicked($event)">
+      </google-map> -->
+  
+      <!-- Placeholder for custom map approach -->
+      <div class="map-placeholder">
+        <p>Map goes here. Click or search to add itinerary items.</p>
+      </div>
+  
+      <!-- Itinerary list -->
+      <div class="itinerary">
+        <h4>Itinerary</h4>
+        <ul>
+          <li *ngFor="let item of editTrip.itinerary; let i = index">
+            {{ item.placeName }} ({{ item.lat }}, {{ item.lng }})
+            <button class="danger-btn" (click)="removeItineraryItem(i)">Remove</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
