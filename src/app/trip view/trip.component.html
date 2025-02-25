@@ -3,35 +3,55 @@
     <div class="sidebar">
       <h2>Trip: {{ editTrip.location }}</h2>
   
+      <!-- Location with Places Autocomplete + ngModel -->
       <label>Location:
-        <input [(ngModel)]="editTrip.location" />
+        <!-- 
+          We reference #locInput for autocomplete,
+          but also do [(ngModel)]="editTrip.location" so it displays the existing doc field
+        -->
+        <input
+          #locInput
+          [(ngModel)]="editTrip.location"
+          name="location"
+          placeholder="Where to?"
+        />
       </label>
   
       <label>Start Date:
-        <input [(ngModel)]="editTrip.startDate" type="date" />
+        <input [(ngModel)]="editTrip.startDate" type="date" name="startDate" />
       </label>
   
       <label>End Date:
-        <input [(ngModel)]="editTrip.endDate" type="date" />
+        <input [(ngModel)]="editTrip.endDate" type="date" name="endDate" />
       </label>
   
       <label>Flights:
-        <input [(ngModel)]="editTrip.flights" />
+        <input [(ngModel)]="editTrip.flights" name="flights" />
       </label>
   
+      <!-- Accommodation with Places Autocomplete + ngModel -->
       <label>Accommodation:
-        <input [(ngModel)]="editTrip.accommodation" />
+        <!-- 
+          #accomInput for lodging autocomplete
+          Also bind with [(ngModel)] to show the doc's existing value 
+        -->
+        <input
+          #accomInput
+          [(ngModel)]="editTrip.accommodation"
+          name="accommodation"
+          placeholder="Hotel name?"
+        />
       </label>
   
       <label>Budget:
-        <input [(ngModel)]="editTrip.budget" type="number" />
+        <input [(ngModel)]="editTrip.budget" type="number" name="budget" />
       </label>
   
       <label>Notes:
-        <textarea [(ngModel)]="editTrip.notes"></textarea>
+        <textarea [(ngModel)]="editTrip.notes" name="notes"></textarea>
       </label>
   
-      <!-- FamilyAttending (if you have an array of them) -->
+      <!-- FamilyAttending array -->
       <h4>Family Attending</h4>
       <div *ngIf="editTrip.familyAttending?.length; else noFam">
         <div *ngFor="let fam of editTrip.familyAttending">
@@ -47,17 +67,14 @@
   
     <!-- Map + itinerary area -->
     <div class="map-area">
-      <!-- Actual map. If using @angular/google-maps:
       <google-map
         [center]="mapCenter"
         [zoom]="14"
-        (mapClick)="onMapClicked($event)">
-      </google-map> -->
-  
-      <!-- Placeholder for custom map approach -->
-      <div class="map-placeholder">
-        <p>Map goes here. Click or search to add itinerary items.</p>
-      </div>
+        (mapClick)="onMapClicked($event)"
+        height="400px"
+        width="400px"
+      >
+      </google-map>
   
       <!-- Itinerary list -->
       <div class="itinerary">
@@ -71,5 +88,6 @@
       </div>
     </div>
   </div>
+  
   <support></support>
   

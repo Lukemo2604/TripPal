@@ -28,7 +28,7 @@
   margin-bottom: 20px;
 }
 
-/* Filter + create trip button section, if needed */
+/* The top bar containing "Create" and filter input */
 .trip-list-topbar {
   display: flex;
   align-items: center;
@@ -36,7 +36,7 @@
   margin-bottom: 20px;
 }
 
-/* Card list for multiple trips */
+/* The list of trips (cards) */
 .trip-list {
   display: flex;
   flex-wrap: wrap;
@@ -56,7 +56,7 @@
   transition: transform 0.2s;
 }
 
-/* Card hover effect */
+/* Hover effect */
 .trip-card:hover {
   transform: translateY(-4px);
 }
@@ -69,7 +69,7 @@
   margin-bottom: 8px;
 }
 
-/* Buttons (primary, danger, secondary) if used here */
+/* ---------- Buttons ---------- */
 .primary-btn {
   background-color: #00ACFF;
   color: #ffffff;
@@ -113,20 +113,76 @@
   background-color: #C0C0C0;
 }
 
-/* Responsive adjustments */
+/* ---------- Modal Styles ---------- */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* on top */
+}
+
+.modal-content {
+  background-color: #eef8ff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Form container if you want to style form inside the modal */
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-container label {
+  display: block;
+  color: #00ACFF;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="date"],
+.form-container textarea {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ---------- Responsive ---------- */
 @media (max-width: 768px) {
   .trip-list-container {
-      height: auto; /* Let content expand */
-      padding: 20px;
+    height: auto; /* Let content expand */
+    padding: 20px;
   }
 
   .trip-list {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .trip-card {
-      width: 80%;
-      margin: 0 auto;
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .modal-content {
+    width: 90%;
   }
 }

@@ -15,11 +15,11 @@ export const routes: Routes = [
   { path: 'support', component: SupportComponent },
   {
     path: 'trips',
-    component: TripsComponent, // canActivate: [AuthGuard]
+    component: TripsComponent, canActivate: [AuthGuard]
   },
   {
     path: 'trips/:tripId',
-    component: TripComponent, // canActivate: [AuthGuard]
+    component: TripComponent, canActivate: [AuthGuard]
   },
   
 
