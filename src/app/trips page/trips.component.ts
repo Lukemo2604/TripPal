@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripsService, Trip } from '../services/trips.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SupportComponent } from "../support/support.component";
+import { SupportComponent } from '../support/support.component';
 
 @Component({
   selector: 'app-trips',
@@ -19,6 +19,10 @@ export class TripsComponent implements OnInit {
   // For the "Create Trip" modal
   showCreateModal = false;
   newTrip: Partial<Trip> = {};
+
+  // References to the create trip form inputs (will be available after modal opens)
+  @ViewChild('newTripLocation') newTripLocationRef!: ElementRef;
+  @ViewChild('newTripAccommodation') newTripAccommodationRef!: ElementRef;
 
   constructor(
     private tripsService: TripsService,
@@ -43,6 +47,11 @@ export class TripsComponent implements OnInit {
   openCreateTripModal(): void {
     this.showCreateModal = true;
     this.newTrip = {}; // Reset any existing data
+
+    // Wait a tick to ensure the modal is rendered, then initialize autocomplete.
+    setTimeout(() => {
+      this.initializeCreateTripAutocompletes();
+    }, 0);
   }
 
   closeCreateTripModal(): void {
@@ -50,7 +59,6 @@ export class TripsComponent implements OnInit {
   }
 
   submitCreateTrip(): void {
-    // POST /api/trips
     this.tripsService.createTrip(this.newTrip).subscribe({
       next: (createdTrip) => {
         // Add it to our local list
@@ -64,7 +72,6 @@ export class TripsComponent implements OnInit {
   }
 
   goToTrip(tripId: string): void {
-    // Navigate to the single trip page
     this.router.navigate(['/trips', tripId]);
   }
 
@@ -75,6 +82,40 @@ export class TripsComponent implements OnInit {
     return this.trips.filter(trip =>
       trip.location.toLowerCase().includes(lower)
     );
+  }
+
+  // Initialize Google Places Autocomplete for newTrip form fields
+  private initializeCreateTripAutocompletes(): void {
+    // Check if Google Maps script is loaded
+    if (!(window as any).google?.maps) {
+      console.warn('Google Maps script not loaded or missing &libraries=places');
+      return;
+    }
+
+    // Initialize Autocomplete for the Location input
+    const locInput = this.newTripLocationRef.nativeElement;
+    const locAuto = new google.maps.places.Autocomplete(locInput, {
+      types: ['(cities)']
+    });
+    locAuto.addListener('place_changed', () => {
+      const place = locAuto.getPlace();
+      if (place && place.geometry) {
+        // Use formatted address or name from the selected place
+        this.newTrip.location = place.formatted_address || place.name || '';
+      }
+    });
+
+    // Initialize Autocomplete for the Accommodation input
+    const accomInput = this.newTripAccommodationRef.nativeElement;
+    const accomAuto = new google.maps.places.Autocomplete(accomInput, {
+      types: ['lodging']
+    });
+    accomAuto.addListener('place_changed', () => {
+      const place = accomAuto.getPlace();
+      if (place && place.geometry) {
+        this.newTrip.accommodation = place.formatted_address || place.name || '';
+      }
+    });
   }
 }
 

@@ -8,6 +8,10 @@
   src: url("/Fonts/Anek Devanagari.ttf") format("truetype");
 }
 
+h2 {
+  font-size: 60px;
+}
+
 /* Main container for listing all trips */
 .trip-list-container {
   display: flex;

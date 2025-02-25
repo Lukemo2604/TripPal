@@ -1,3 +1,7 @@
+<div *ngIf="showPopup" class="popup-message">
+    {{ popupMessage }}
+</div>
+
 <div class="trip-container" *ngIf="editTrip">
     <!-- Sidebar -->
     <div class="sidebar">
@@ -5,10 +9,6 @@
   
       <!-- Location with Places Autocomplete + ngModel -->
       <label>Location:
-        <!-- 
-          We reference #locInput for autocomplete,
-          but also do [(ngModel)]="editTrip.location" so it displays the existing doc field
-        -->
         <input
           #locInput
           [(ngModel)]="editTrip.location"
@@ -31,10 +31,6 @@
   
       <!-- Accommodation with Places Autocomplete + ngModel -->
       <label>Accommodation:
-        <!-- 
-          #accomInput for lodging autocomplete
-          Also bind with [(ngModel)] to show the doc's existing value 
-        -->
         <input
           #accomInput
           [(ngModel)]="editTrip.accommodation"
@@ -54,15 +50,24 @@
       <!-- FamilyAttending array -->
       <h4>Family Attending</h4>
       <div *ngIf="editTrip.familyAttending?.length; else noFam">
-        <div *ngFor="let fam of editTrip.familyAttending">
-          <input type="checkbox" [(ngModel)]="fam.attending" /> {{ fam.name }}
-        </div>
+        <ul class="family-list">
+          <li *ngFor="let fam of editTrip.familyAttending">
+            <label>
+              <input type="checkbox" [(ngModel)]="fam.attending" name="fam{{fam.name}}" />
+              <span class="fam-name">{{ fam.name }}</span>
+            </label>
+          </li>
+        </ul>
       </div>
       <ng-template #noFam>
         <p>No family members listed.</p>
       </ng-template>
+      
+
   
       <button class="primary-btn" (click)="saveTrip()">Save</button>
+      <!-- New Delete Trip button -->
+      <button class="danger-btn" (click)="deleteTrip()">Delete Trip</button>
     </div>
   
     <!-- Map + itinerary area -->
@@ -71,8 +76,8 @@
         [center]="mapCenter"
         [zoom]="14"
         (mapClick)="onMapClicked($event)"
-        height="400px"
-        width="400px"
+        height="600px"
+        width="600px"
       >
       </google-map>
   

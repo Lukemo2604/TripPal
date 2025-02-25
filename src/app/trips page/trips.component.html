@@ -26,8 +26,6 @@
   <div class="modal" *ngIf="showCreateModal">
     <div class="modal-content">
       <h3>Create a new trip</h3>
-
-      <!-- Optionally wrap the form in a .form-container if you like that style -->
       <div class="form-container">
         <form (ngSubmit)="submitCreateTrip()">
           <label>
@@ -37,6 +35,7 @@
               name="location"
               placeholder="Location"
               required
+              #newTripLocation
             />
           </label>
 
@@ -61,19 +60,15 @@
               [(ngModel)]="newTrip.accommodation"
               name="accommodation"
               placeholder="Accommodation"
+              #newTripAccommodation
             />
           </label>
 
-          <!-- etc. familyAttending can be empty for now, user will set in detail page? -->
+          <!-- Additional fields can go here -->
+
           <div class="button-row">
             <button class="primary-btn" type="submit">Create</button>
-            <button
-              class="secondary-btn"
-              (click)="closeCreateTripModal()"
-              type="button"
-            >
-              Cancel
-            </button>
+            <button class="secondary-btn" type="button" (click)="closeCreateTripModal()">Cancel</button>
           </div>
         </form>
       </div>
