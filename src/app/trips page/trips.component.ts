@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripsService, Trip } from '../services/trips.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { SupportComponent } from "../support/support.component";
 
 @Component({
   selector: 'app-trips',
+  standalone: true,
   templateUrl: './trips.component.html',
   styleUrls: ['./trips.component.css'],
-  imports: [FormsModule]
+  imports: [FormsModule, CommonModule, SupportComponent]
 })
 export class TripsComponent implements OnInit {
   trips: Trip[] = [];

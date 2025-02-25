@@ -3,16 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TripsService, Trip, ItineraryItem } from '../services/trips.service';
+import { SupportComponent } from "../support/support.component";
 
 @Component({
   selector: 'app-trip-detail',
-  standalone: true, // <-- ADD THIS
+  standalone: true,
   templateUrl: './trip.component.html',
   styleUrls: ['./trip.component.css'],
   imports: [
-    CommonModule, // <-- ALLOW *ngIf, *ngFor, etc.
-    FormsModule   // <-- ALLOW [(ngModel)]
-  ]
+    CommonModule, FormsModule, SupportComponent]
 })
 export class TripComponent implements OnInit {
   trip: Trip | null = null;     // Original data from server

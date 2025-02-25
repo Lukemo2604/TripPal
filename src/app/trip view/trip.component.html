@@ -1,7 +1,7 @@
 <div class="trip-container" *ngIf="editTrip">
     <!-- Sidebar -->
     <div class="sidebar">
-      <h2>Edit Trip: {{ editTrip.location }}</h2>
+      <h2>Trip: {{ editTrip.location }}</h2>
   
       <label>Location:
         <input [(ngModel)]="editTrip.location" />
@@ -71,4 +71,5 @@
       </div>
     </div>
   </div>
+  <support></support>
   
