@@ -10,24 +10,39 @@ export interface FamilyAttendee {
 
 export interface ItineraryItem {
   placeName: string;
-  placeId?: string;
-  lat: number;
-  lng: number;
+  startTime?: string;
+  endTime?: string;
+  cost?: number;
+  lat?: number;
+  lng?: number;
 }
+
 
 export interface Trip {
   _id: string;
   userId: string;
   location: string;
-  startDate?: string;
-  endDate?: string;
-  flights?: string;
-  accommodation?: string;
-  familyAttending?: FamilyAttendee[];
-  budget?: number;
-  notes?: string;
-  itinerary?: ItineraryItem[];
+  startDate: string;
+  endDate: string;
+  flights: {
+    departing: {
+      flightNumber: string;
+      departureTime: string;
+      arrivalTime: string;
+    },
+    arriving: {
+      flightNumber: string;
+      departureTime: string;
+      arrivalTime: string;
+    }
+  } | null;  // Allow null initially
+  accommodation: string;
+  familyAttending: any[];
+  budget: number;
+  notes: string | null;
+  itinerary: ItineraryItem[];
 }
+
 
 @Injectable({
   providedIn: 'root'

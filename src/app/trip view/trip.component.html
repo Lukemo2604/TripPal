@@ -25,9 +25,80 @@
         <input [(ngModel)]="editTrip.endDate" type="date" name="endDate" />
       </label>
   
-      <label>Flights:
-        <input [(ngModel)]="editTrip.flights" name="flights" />
-      </label>
+    <!-- Flights mini form -->
+    <!-- Button to toggle the flights form -->
+    <button class="primary-btn" (click)="toggleFlights()">
+      {{ expandFlights ? 'Flight Details' : 'Show Flights' }}
+    </button>
+
+    <!-- Only render the flights if expandFlights is true AND flights is not null -->
+    <div *ngIf="expandFlights && editTrip?.flights as flights" class="flight-container">
+      <h4>Flights</h4>
+      <div class="flight-columns">
+        <!-- Departing Flight Column -->
+        <div class="flight-section">
+          <h5>Departing Flight</h5>
+          <label>Flight Number:
+            <input
+              type="text"
+              [(ngModel)]="flights.departing.flightNumber"
+              name="departingFlightNumber"
+              required
+            />
+          </label>
+          <div class="flight-row">
+            <label>Departure Time:
+              <input
+                type="time"
+                [(ngModel)]="flights.departing.departureTime"
+                name="departingDepartureTime"
+                required
+              />
+            </label>
+            <label>Arrival Time:
+              <input
+                type="time"
+                [(ngModel)]="flights.departing.arrivalTime"
+                name="departingArrivalTime"
+                required
+              />
+            </label>
+          </div>
+        </div>
+
+        <!-- Arriving Flight Column -->
+        <div class="flight-section">
+          <h5>Arriving Flight</h5>
+          <label>Flight Number:
+            <input
+              type="text"
+              [(ngModel)]="flights.arriving.flightNumber"
+              name="arrivingFlightNumber"
+              required
+            />
+          </label>
+          <div class="flight-row">
+            <label>Departure Time:
+              <input
+                type="time"
+                [(ngModel)]="flights.arriving.departureTime"
+                name="arrivingDepartureTime"
+                required
+              />
+            </label>
+            <label>Arrival Time:
+              <input
+                type="time"
+                [(ngModel)]="flights.arriving.arrivalTime"
+                name="arrivingArrivalTime"
+                required
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
   
       <!-- Accommodation with Places Autocomplete + ngModel -->
       <label>Accommodation:
@@ -82,18 +153,58 @@
       >
       </google-map>
   
-      <!-- Itinerary list -->
-      <div class="itinerary">
-        <h4>Itinerary</h4>
-        <ul>
-          <li *ngFor="let item of editTrip.itinerary; let i = index">
-            {{ item.placeName }} ({{ item.lat }}, {{ item.lng }})
-            <button class="danger-btn" (click)="removeItineraryItem(i)">Remove</button>
-          </li>
-        </ul>
+     
+
+      <!-- itinerary form -->
+        <div class="itinerary">
+          <h4>Itinerary</h4>
+          <!-- List existing items -->
+          <ul>
+            <li class="itinerary-item" *ngFor="let item of editTrip?.itinerary; let i = index">
+              <label>
+                <span>Place:</span>
+                <input [(ngModel)]="item.placeName" name="placeName{{ i }}" type="text" />
+              </label>
+              <label>
+                <span>Start:</span>
+                <input [(ngModel)]="item.startTime" name="startTime{{ i }}" type="time" />
+              </label>
+              <label>
+                <span>End:</span>
+                <input [(ngModel)]="item.endTime" name="endTime{{ i }}" type="time" />
+              </label>
+              <label>
+                <span>Cost:</span>
+                <input [(ngModel)]="item.cost" name="cost{{ i }}" type="number" />
+              </label>
+              <button class="danger-btn" (click)="removeItineraryItem(i)">Remove</button>
+            </li>
+            
+          </ul>
+
+          <!-- Form to add a new custom activity -->
+          <div class="add-activity-form">
+            <h5>Add Custom Activity</h5>
+            <label>Place Name:
+              <input [(ngModel)]="newActivity.placeName" name="newActivityPlace" />
+            </label>
+            <div class="time-cost-row">
+              <label>Start:
+                <input [(ngModel)]="newActivity.startTime" type="time" name="newActivityStart" />
+              </label>
+              <label>End:
+                <input [(ngModel)]="newActivity.endTime" type="time" name="newActivityEnd" />
+              </label>
+              <label>Cost:
+                <input [(ngModel)]="newActivity.cost" type="number" name="newActivityCost" />
+              </label>
+            </div>
+            <button class="primary-btn" (click)="addCustomActivity()">Add Activity</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  
   
   <support></support>
   
