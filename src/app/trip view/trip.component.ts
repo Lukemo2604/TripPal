@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'; // For navigation
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-
+import { tripPalMapStyles } from '../map/map-styles'; // Custom map styles
 import { TripsService, Trip, ItineraryItem } from '../services/trips.service';
 import { SupportComponent } from '../support/support.component';
 import { UserService } from '../services/user.service';
@@ -27,6 +27,10 @@ export class TripComponent implements OnInit {
   // Default map center (NYC). Optionally, recenter using geocodeAddress().
   mapCenter = { lat: 40.7128, lng: -74.0060 };
   zoom = 14;
+
+  mapOptions: google.maps.MapOptions = {
+    styles: tripPalMapStyles,
+  };
 
   // Popup properties for deletion feedback
   popupMessage: string = '';
@@ -141,7 +145,7 @@ export class TripComponent implements OnInit {
         this.showPopup = true;
         setTimeout(() => {
           this.router.navigate(['/trips']);
-        }, 2000);
+        }, 1000);
       },
       error: (err) => {
         console.error('Failed to delete trip:', err);

@@ -15,7 +15,7 @@
     gap: 40px;
     padding: 50px;
     background-color: #ebf5ff;
-    height: 100vh;
+    min-height: 100vh;
     margin-top: 80px; /* Adds space below the navbar */
 }
 
@@ -48,6 +48,11 @@
     background: #00ACFF;
     color: #E4BDF2;
     border-radius: 5px;
+}
+
+.sidebar .danger-btn:hover {
+    background: #FF5C5C;
+    color: #ffffff;
 }
 
 /* Main Content Area */

@@ -192,34 +192,40 @@
     padding: 0;
   }
   
+  /* Each list item as a 'card' */
   .family-list li {
+    display: flex;              /* to align checkbox + text horizontally */
+    align-items: center;        /* vertically center them */
+    background-color: #eef8ff;  /* slight background (light pastel) */
+    border: 1px solid #ddd;     /* subtle border */
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* slight card-like shadow */
+    padding: 10px;
+    margin-bottom: 10px;        /* space between cards */
+  }
+  
+  /* The label wraps the checkbox and name together */
+  .family-list li label {
     display: flex;
     align-items: center;
-    margin-bottom: 10px; /* space between rows */
-  }
-  
-  /* The label wraps the checkbox + name together */
-  .family-list li label {
-    display: inline-flex;
-    align-items: center;
     cursor: pointer;
-    font-family: "Body_font", sans-serif;
-    font-size: 16px;
-    color: #333; /* default text color */
+    margin: 0; /* remove default label margin */
+    width: 100%; /* make label take full width for consistent spacing */
   }
   
-  /* Make the checkbox bigger, add spacing */
+  /* Make the checkbox slightly bigger and spaced from the text */
   .family-list li input[type="checkbox"] {
     margin-right: 8px;
-    transform: scale(1.2);
+    transform: scale(1.2); 
   }
   
-  /* The family member name in brand color + header font */
+  /* The family member name styled in brand color and header font */
   .family-list li .fam-name {
     color: #00ACFF;
-    font-family: "Header_font", sans-serif;
+    font-family: "Header_font", sans-serif; /* brand header font */
     font-size: 16px;
   }
+  
   
   
 

@@ -91,6 +91,23 @@ body, html {
     cursor: pointer;
 }
 
+.sidenav button {
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 22px;
+    color: #E4BDF2;
+    display: block;
+    transition: 0.3s;
+    background: none ;
+    border: none;
+    font-family: "Body_font", sans-serif;
+
+}
+
+.sidenav button:hover {
+    color: #FF5C5C;
+}
+
 /* Adjust main content to not hide behind navbar */
 #main {
     margin-top: 50px; /* Space for fixed navbar */
