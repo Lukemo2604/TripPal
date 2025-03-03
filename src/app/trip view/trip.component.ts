@@ -7,17 +7,14 @@ import { HttpClient } from '@angular/common/http';
 import { tripPalMapStyles } from '../map/map-styles'; // Custom map styles
 import { TripsService, Trip, ItineraryItem } from '../services/trips.service';
 import { SupportComponent } from '../support/support.component';
-import { UserService } from '../services/user.service';
+import { UserService, UserData, FamilyMember } from '../services/user.service';
 
 interface DayInfo {
   dayIndex: number;   // e.g. 1, 2, 3
   date: string;       // e.g. "2025-04-18"
 }
 
-export interface UserData {
-  preferences: string[];
-  familyMembers: { attending: boolean; preferences: string[] }[];
-}
+
 
 @Component({
   selector: 'app-trip-detail',
@@ -174,26 +171,31 @@ export class TripComponent implements OnInit {
     // Retrieve the logged-in user’s preferences.
     const userPreferences: string[] = this.userData.preferences || [];
     
-    // Combine preferences from family members that are marked as attending.
-    const familyPreferences: string[] = this.userData.familyMembers
-      .filter((member: any) => member.attending)
-      .reduce((acc: string[], member: any) => {
-        if (member.preferences) {
-          return acc.concat(member.preferences);
-        }
-        return acc;
-      }, []);
+    // Merge "attending" from the trip with "preferences" from the user
+    const tripFamilyAttending = this.editTrip.familyAttending || [];
+    const familyPreferences: string[] = (this.editTrip.familyAttending || [])
+    .filter((f: any) => f.attending)
+    .reduce((acc: string[], f: any) => {
+      // Use a type assertion to tell TypeScript that f has a name property.
+      const attendingMember = f as { name: string; attending: boolean };
+      const userFam = this.userData!.familyMembers.find(u => u.name === attendingMember.name);
+      if (userFam && userFam.preferences) {
+        return acc.concat(userFam.preferences);
+      }
+      return acc;
+    }, []);
+  
     
-    // Combine both arrays. You might want to deduplicate if necessary.
+    // Combine both arrays (and deduplicate if needed)
     const combinedPreferences = [...userPreferences, ...familyPreferences];
     
     const payload = {
       city: this.editTrip.location,
-      preferences: combinedPreferences,
-      dislikes: [] // Optionally include dislikes if available.
+      userPreferences,
+      familyPreferences
     };
-  
-    this.http.post<{ recommendations: any[] }>('/api/recommendations', payload)
+    
+    this.http.post<{ recommendations: any[] }>('http://localhost:5000/api/recommendations', payload)
       .subscribe(
         (res: { recommendations: any[] }) => {
           this.recommendations = res.recommendations;
@@ -203,6 +205,8 @@ export class TripComponent implements OnInit {
         }
       );
   }
+  
+  
   
 
 
@@ -339,5 +343,23 @@ export class TripComponent implements OnInit {
   removeItineraryItem(index: number): void {
     this.editTrip?.itinerary?.splice(index, 1);
   }
+
+  addRecommendationToDay(recommendation: any, dayIndex: string): void {
+    const dayIndexNumber = parseInt(dayIndex, 10);
+    if (!this.editTrip) return;
+    const itineraryItem = {
+      placeName: recommendation.name,
+      startTime: '',
+      endTime: '',
+      cost: 0,
+      dayIndex: dayIndexNumber,
+      // Additional fields (address, photoUrl, etc.) if desired.
+    };
+    this.editTrip.itinerary.push(itineraryItem);
+    console.log(`Added recommendation "${recommendation.name}" to day ${dayIndexNumber}`);
+  }
+  
+  
+
 }
 

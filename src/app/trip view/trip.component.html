@@ -162,7 +162,7 @@
       </div>
     </div>
 
-    <!-- New Recommendation Section -->
+    <!-- Recommendation Section -->
     <div class="recommendation-section">
       <h4>Recommended Activities</h4>
       <button class="primary-btn" (click)="getRecommendations()">Get Recommendations</button>
@@ -170,7 +170,27 @@
         <li *ngFor="let rec of recommendations">
           <div class="recommendation-item">
             <strong>{{ rec.name }}</strong>
-            <p>{{ rec.description }}</p>
+            <p *ngIf="rec.formatted_address">Address: {{ rec.formatted_address }}</p>
+            <p *ngIf="rec.rating">Rating: {{ rec.rating }}</p>
+            <p *ngIf="rec.types">Types: {{ rec.types.join(', ') }}</p>
+            <img
+              *ngIf="rec.photo_url"
+              [src]="rec.photo_url"
+              alt="Photo of {{ rec.name }}"
+              style="max-width: 400px; margin-top: 10px;"
+            />
+            <!-- New add-to-day section -->
+            <div class="add-to-day">
+              <label>Select Day:</label>
+              <select #daySelect>
+                <option *ngFor="let day of days" [value]="day.dayIndex">
+                  Day {{ day.dayIndex }} - {{ day.date }}
+                </option>
+              </select>
+              <button class="primary-btn" (click)="addRecommendationToDay(rec, daySelect.value)">
+                Add to Day
+              </button>
+            </div>
           </div>
         </li>
       </ul>

@@ -4,9 +4,21 @@ import { Observable } from 'rxjs';  // <-- Import Observable
 
 export interface FamilyMember {
   name: string;
-  // Add additional fields as needed, e.g.:
-  // relation?: string;
+  preferences: string[];
 }
+
+export interface UserData {
+  preferences: string[];
+  familyMembers: FamilyMember[];
+}
+
+// For the trip's familyAttending field:
+export interface TripFamilyAttending {
+  attending: boolean;
+  familyMemberId: string;
+  name: string;
+}
+
 
 @Injectable({
   providedIn: 'root'
