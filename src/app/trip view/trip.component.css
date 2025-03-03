@@ -421,6 +421,36 @@
   border-top: 1px solid #ddd;
 }
 
+/* Recommendation Section */
+.recommendation-section {
+  background: #eef8ff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  font-family: "Body_font", sans-serif;
+}
+
+.recommendation-section h4 {
+  color: #00ACFF;
+  font-family: "Header_font", sans-serif;
+  margin-bottom: 15px;
+}
+
+.recommendation-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.recommendation-item p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #333;
+}
+
+
   
   
 

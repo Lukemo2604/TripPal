@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-
+import { HttpClient } from '@angular/common/http';
 import { tripPalMapStyles } from '../map/map-styles'; // Custom map styles
 import { TripsService, Trip, ItineraryItem } from '../services/trips.service';
 import { SupportComponent } from '../support/support.component';
@@ -12,6 +12,11 @@ import { UserService } from '../services/user.service';
 interface DayInfo {
   dayIndex: number;   // e.g. 1, 2, 3
   date: string;       // e.g. "2025-04-18"
+}
+
+export interface UserData {
+  preferences: string[];
+  familyMembers: { attending: boolean; preferences: string[] }[];
 }
 
 @Component({
@@ -25,19 +30,18 @@ interface DayInfo {
     SupportComponent,
     GoogleMapsModule
   ]
-})
+}) 
 export class TripComponent implements OnInit {
   trip: Trip | null = null;       
   editTrip: Trip | null = null;   
   expandFlights = false;
-
   // We store an array of day objects, each with dayIndex and date
   days: DayInfo[] = [];
-
   // For each day, we keep a "new activity" form object in a dictionary
   newActivityForDay: { [dayIndex: number]: ItineraryItem } = {};
-
   expandedDays: { [key: number]: boolean } = {};
+  recommendations: any[] = [];
+  userData: UserData | null = null;
 
   // Default map center
   mapCenter = { lat: 40.7128, lng: -74.0060 };
@@ -55,13 +59,19 @@ export class TripComponent implements OnInit {
     private route: ActivatedRoute,
     private tripsService: TripsService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     const tripId = this.route.snapshot.paramMap.get('tripId');
     if (!tripId) return;
 
+    
+    this.userService.getUser().subscribe((userData: any) => {
+      this.userData = userData;
+    });
+    
     this.tripsService.getTrip(tripId).subscribe({
       next: (fetchedTrip) => {
         this.trip = fetchedTrip;
@@ -148,6 +158,53 @@ export class TripComponent implements OnInit {
       current.setDate(current.getDate() + 1);
     }
   }
+
+  // New method to generate recommendations
+  getRecommendations(): void {
+    // Ensure we have the trip and user data loaded.
+    if (!this.editTrip || !this.editTrip.location) {
+      console.error("Trip or trip location is not set.");
+      return;
+    }
+    if (!this.userData) {
+      console.error("User data is not loaded.");
+      return;
+    }
+    
+    // Retrieve the logged-in user’s preferences.
+    const userPreferences: string[] = this.userData.preferences || [];
+    
+    // Combine preferences from family members that are marked as attending.
+    const familyPreferences: string[] = this.userData.familyMembers
+      .filter((member: any) => member.attending)
+      .reduce((acc: string[], member: any) => {
+        if (member.preferences) {
+          return acc.concat(member.preferences);
+        }
+        return acc;
+      }, []);
+    
+    // Combine both arrays. You might want to deduplicate if necessary.
+    const combinedPreferences = [...userPreferences, ...familyPreferences];
+    
+    const payload = {
+      city: this.editTrip.location,
+      preferences: combinedPreferences,
+      dislikes: [] // Optionally include dislikes if available.
+    };
+  
+    this.http.post<{ recommendations: any[] }>('/api/recommendations', payload)
+      .subscribe(
+        (res: { recommendations: any[] }) => {
+          this.recommendations = res.recommendations;
+        },
+        (err: any) => {
+          console.error('Error fetching recommendations', err);
+        }
+      );
+  }
+  
+
 
   private geocodeAddress(address: string): void {
     if (!(window as any).google?.maps) {

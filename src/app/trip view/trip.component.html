@@ -161,7 +161,22 @@
         </div>
       </div>
     </div>
+
+    <!-- New Recommendation Section -->
+    <div class="recommendation-section">
+      <h4>Recommended Activities</h4>
+      <button class="primary-btn" (click)="getRecommendations()">Get Recommendations</button>
+      <ul *ngIf="recommendations && recommendations.length">
+        <li *ngFor="let rec of recommendations">
+          <div class="recommendation-item">
+            <strong>{{ rec.name }}</strong>
+            <p>{{ rec.description }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 
 <support></support>
+
