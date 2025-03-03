@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // For navigation
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
+
 import { tripPalMapStyles } from '../map/map-styles'; // Custom map styles
 import { TripsService, Trip, ItineraryItem } from '../services/trips.service';
 import { SupportComponent } from '../support/support.component';
 import { UserService } from '../services/user.service';
+
+interface DayInfo {
+  dayIndex: number;   // e.g. 1, 2, 3
+  date: string;       // e.g. "2025-04-18"
+}
 
 @Component({
   selector: 'app-trip-detail',
@@ -21,19 +27,19 @@ import { UserService } from '../services/user.service';
   ]
 })
 export class TripComponent implements OnInit {
-  trip: Trip | null = null;       // The trip fetched from the backend
-  editTrip: Trip | null = null;   // A deep copy used for editing and binding
-  expandFlights= false;
+  trip: Trip | null = null;       
+  editTrip: Trip | null = null;   
+  expandFlights = false;
 
+  // We store an array of day objects, each with dayIndex and date
+  days: DayInfo[] = [];
 
-  newActivity: ItineraryItem = {
-    placeName: '',
-    startTime: '',
-    endTime: '',
-    cost: 0
-  };
+  // For each day, we keep a "new activity" form object in a dictionary
+  newActivityForDay: { [dayIndex: number]: ItineraryItem } = {};
 
-  // Default map center (NYC). Optionally, recenter using geocodeAddress().
+  expandedDays: { [key: number]: boolean } = {};
+
+  // Default map center
   mapCenter = { lat: 40.7128, lng: -74.0060 };
   zoom = 14;
 
@@ -41,7 +47,7 @@ export class TripComponent implements OnInit {
     styles: tripPalMapStyles,
   };
 
-  // Popup properties for deletion feedback
+  // Popup for save/delete feedback
   popupMessage: string = '';
   showPopup: boolean = false;
 
@@ -49,24 +55,24 @@ export class TripComponent implements OnInit {
     private route: ActivatedRoute,
     private tripsService: TripsService,
     private router: Router,
-    private userService: UserService // To fetch user (and familyMembers) data
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     const tripId = this.route.snapshot.paramMap.get('tripId');
     if (!tripId) return;
 
-    // Fetch the trip data from the backend
     this.tripsService.getTrip(tripId).subscribe({
-      next: (fetchedTrip) => { // Save the fetched trip document
-        this.trip = fetchedTrip; // Create a deep copy for editing/binding
+      next: (fetchedTrip) => {
+        this.trip = fetchedTrip;
         this.editTrip = JSON.parse(JSON.stringify(fetchedTrip));
-        
-        // If itinerary is missing, initialize it
+
+        // Ensure itinerary array
         if (!this.editTrip?.itinerary) {
           this.editTrip!.itinerary = [];
         }
 
+        // Ensure flights
         if (this.editTrip && !this.editTrip.flights) {
           this.editTrip.flights = {
             departing: { flightNumber: '', departureTime: '', arrivalTime: '' },
@@ -74,55 +80,75 @@ export class TripComponent implements OnInit {
           };
         }
 
-        // Optionally recenter the map if the trip has a location (using geocodeAddress)
+        // If there's a location, optionally recenter map
         if (this.editTrip?.location) {
           this.geocodeAddress(this.editTrip.location);
         }
 
-        // If familyAttending is empty, fetch family members from the user document
+        // Generate days between startDate and endDate
+        this.generateDays();
+
+        // Initialize newActivityForDay objects
+        this.days.forEach(d => {
+          this.newActivityForDay[d.dayIndex] = {
+            placeName: '',
+            startTime: '',
+            endTime: '',
+            cost: 0,
+            dayIndex: d.dayIndex
+          };
+          this.expandedDays[d.dayIndex] = false;
+        });
+
+        // If familyAttending is empty, fetch user family
         if (this.editTrip && (!this.editTrip.familyAttending || this.editTrip.familyAttending.length === 0)) {
           this.userService.getUser().subscribe({
             next: (user: any) => {
-              // Assume the user document contains a sub-array called familyMembers
-              // Each member is an object with at least a "name" property
               const members = user.familyMembers || [];
-              // Map each family member to an object that fits the expected structure:
-              // We'll use the family member's name as a unique identifier (familyMemberId)
               this.editTrip!.familyAttending = members.map((member: any) => ({
-                familyMemberId: member.name, // If no specific ID exists, use name as a fallback
+                familyMemberId: member.name,
                 name: member.name,
                 attending: false
               }));
-              // Update the trip document with the new familyAttending array
-              this.tripsService.updateTrip(this.editTrip!._id, this.editTrip as Partial<Trip>).subscribe({
+              this.tripsService.updateTrip(this.editTrip!._id, this.editTrip!).subscribe({
                 next: (updatedTrip) => {
                   console.log('Trip updated with family attending:', updatedTrip);
                   this.trip = updatedTrip;
                   this.editTrip = JSON.parse(JSON.stringify(updatedTrip));
                 },
-                error: (err) => {
-                  console.error('Failed to update trip with family attending:', err);
-                }
+                error: (err) => console.error('Failed to update trip with family attending:', err)
               });
             },
-            error: (err) => {
-              console.error('Failed to fetch user:', err);
-            }
+            error: (err) => console.error('Failed to fetch user:', err)
           });
         }
       },
-      error: (err) => {
-        console.error('Failed to fetch trip:', err);
-      }
+      error: (err) => console.error('Failed to fetch trip:', err)
     });
   }
 
+  // Generate an array of day objects from startDate to endDate
+  private generateDays(): void {
+    if (!this.editTrip?.startDate || !this.editTrip.endDate) return;
 
+    const start = new Date(this.editTrip.startDate);
+    const end = new Date(this.editTrip.endDate);
 
-  /**
-   * Uses Google Geocoder to convert an address string into coordinates,
-   * and updates mapCenter to recenter the map.
-   */
+    this.days = [];
+    let current = new Date(start);
+    let dayIndex = 1;
+
+    while (current <= end) {
+      const dateStr = current.toISOString().split('T')[0]; // "YYYY-MM-DD"
+      this.days.push({
+        dayIndex,
+        date: dateStr
+      });
+      dayIndex++;
+      current.setDate(current.getDate() + 1);
+    }
+  }
+
   private geocodeAddress(address: string): void {
     if (!(window as any).google?.maps) {
       console.warn('Google Maps script not loaded');
@@ -139,16 +165,22 @@ export class TripComponent implements OnInit {
     });
   }
 
-   // Method to show/hide flights form
-   toggleFlights(): void {
+  toggleFlights(): void {
     this.expandFlights = !this.expandFlights;
   }
 
-  // Called when the user clicks "Save" button
+  toggleDay(dayIndex: number): void {
+    this.expandedDays[dayIndex] = !this.expandedDays[dayIndex];
+  }
+
+  isDayExpanded(dayIndex: number): boolean {
+    return !!this.expandedDays[dayIndex];
+  }
+
   saveTrip(): void {
     if (!this.editTrip || !this.editTrip._id) return;
 
-    this.tripsService.updateTrip(this.editTrip._id, this.editTrip as Partial<Trip>).subscribe({
+    this.tripsService.updateTrip(this.editTrip._id, this.editTrip).subscribe({
       next: (updated) => {
         console.log('Trip updated:', updated);
         this.trip = updated;
@@ -157,18 +189,14 @@ export class TripComponent implements OnInit {
         this.popupMessage = 'Trip saved!';
         this.showPopup = true;
 
-        // After 1 second, navigate to /trips
         setTimeout(() => {
           this.router.navigate(['/trips']);
         }, 1000);
       },
-      error: (err) => {
-        console.error('Failed to update trip:', err);
-      }
+      error: (err) => console.error('Failed to update trip:', err)
     });
   }
 
-  // Called when the user clicks "Delete Trip" button
   deleteTrip(): void {
     if (!this.editTrip || !this.editTrip._id) return;
 
@@ -181,65 +209,72 @@ export class TripComponent implements OnInit {
           this.router.navigate(['/trips']);
         }, 1000);
       },
-      error: (err) => {
-        console.error('Failed to delete trip:', err);
-      }
+      error: (err) => console.error('Failed to delete trip:', err)
     });
   }
 
-  // Called when user clicks on the map
+  // Reverse geocode to get place name
   onMapClicked(mapEvent: google.maps.MapMouseEvent): void {
     if (!this.editTrip) return;
-  
+
     const lat = mapEvent.latLng?.lat();
     const lng = mapEvent.latLng?.lng();
     if (lat == null || lng == null) return;
-  
-    // Create a new geocoder
+
     const geocoder = new google.maps.Geocoder();
-  
-    // Perform a reverse geocode
     geocoder.geocode({ location: { lat, lng } }, (results, status) => {
       if (status === 'OK' && results && results.length > 0) {
-        // Use the first result's formatted address as the place name
         const placeName = results[0].formatted_address;
-        const newPlace = {
+        const newPlace: ItineraryItem = {
           placeName: placeName || 'Map Pin',
           lat,
           lng,
           startTime: '',
           endTime: '',
-          cost: 0
+          cost: 0,
+          dayIndex: 1 // default to Day 1, or you can ask user which day
         };
         this.editTrip!.itinerary.push(newPlace);
       } else {
-        // Fallback if geocoder fails
         console.warn('Reverse geocoding failed, status:', status);
-        const newPlace = {
+        const newPlace: ItineraryItem = {
           placeName: 'Map Pin',
           lat,
           lng,
           startTime: '',
           endTime: '',
-          cost: 0
+          cost: 0,
+          dayIndex: 1
         };
         this.editTrip!.itinerary.push(newPlace);
       }
     });
   }
-  
 
-  // Called when user clicks "Add Activity" button
-  addCustomActivity(): void {
+  // Return itinerary items belonging to a given day
+  getItineraryItemsForDay(dayIndex: number): ItineraryItem[] {
+    if (!this.editTrip?.itinerary) return [];
+    return this.editTrip.itinerary.filter(item => item.dayIndex === dayIndex);
+  }
+
+  // Add custom activity for a specific day
+  addCustomActivity(dayIndex: number): void {
     if (!this.editTrip) return;
 
-    // Push a copy of newActivity, then reset
-    this.editTrip.itinerary.push({ ...this.newActivity });
-    this.newActivity = {
+    // Copy from newActivityForDay[dayIndex], then reset
+    const activity = { ...this.newActivityForDay[dayIndex] };
+    // Make sure dayIndex is set
+    activity.dayIndex = dayIndex;
+
+    this.editTrip.itinerary.push(activity);
+
+    // Reset the form
+    this.newActivityForDay[dayIndex] = {
       placeName: '',
       startTime: '',
       endTime: '',
-      cost: 0
+      cost: 0,
+      dayIndex
     };
   }
 
@@ -248,3 +283,4 @@ export class TripComponent implements OnInit {
     this.editTrip?.itinerary?.splice(index, 1);
   }
 }
+

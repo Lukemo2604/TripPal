@@ -382,6 +382,45 @@
     margin-top: 10px;
     /* reuses your existing .primary-btn styles */
   }
+
+ /* Day Card Styling */
+.day-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eef8ff;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.day-header h5 {
+  color: #00ACFF;
+  font-family: "Header_font", sans-serif;
+  margin: 0;
+  font-size: 18px;
+}
+
+.toggle-indicator {
+  font-size: 24px;
+  color: #00ACFF;
+  font-weight: bold;
+}
+
+.day-content {
+  padding: 20px;
+  width:fit-content;
+  border-top: 1px solid #ddd;
+}
+
   
   
 

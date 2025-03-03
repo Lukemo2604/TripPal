@@ -15,6 +15,7 @@ export interface ItineraryItem {
   cost?: number;
   lat?: number;
   lng?: number;
+  dayIndex?: number;
 }
 
 
