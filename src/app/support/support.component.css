@@ -1,110 +1,187 @@
-@font-face {
-    font-family: "Header_font";
-    src: url("/Fonts/Bricolage Grotesque.ttf") format("truetype");
+/* support.component.css */
+
+/* 1) Import Montserrat if not already done globally */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+/* 2) Basic Reset & Body Defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@font-face {
-    font-family: "Body_font";
-    src: url("/Fonts/Anek Devanagari.ttf") format("truetype");
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: #2D3748;
+  margin: 0;
+  padding: 0;
 }
 
+/* 3) Main Container */
 .support-container {
-    text-align: center;
-    padding: 50px 20px;
-    font-family: "Body_font", sans-serif;
-    background-color: #ebf5ff;
+  /* A soft background color for the entire support page */
+  background: url("/Images/support-image.jpg") center/cover no-repeat;
+  min-height: 100vh;
+  padding: 4rem 1rem;
+  text-align: center;
+  position: relative;
 }
 
-.contact-info {
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #eef8ff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+.support-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.4);
+    /* A white overlay to lighten and blur the background image */
+    filter: blur(30px); /* optional, if you want a frosted effect */
+    z-index: 0;
+  }
+
+/* Header & Subtitle */
+.support-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #000000;
+  
+  margin-bottom: 0.5rem;
 }
 
-.contact-info h2 {
-    color: #00ACFF;
+.support-container p {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #000000;
+    outline: #FFFFFF;
+    margin-bottom: 0.5rem;
+  }
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #4A5568;
+  margin-bottom: 3rem; /* Space below subtitle */
 }
 
-.contact-info p {
-    font-size: 16px;
-    color: #333;
+/* 4) Two-Column Layout for Contact & Form */
+.support-row,
+.support-row *{
+  display: flex;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;           /* Let it wrap on smaller screens */
+  gap: 2rem;                 /* Spacing between columns */
+  justify-content: center;   /* Center the columns horizontally */
+  align-items: flex-start;   /* Align them at the top */
+  max-width: 1200px;         /* Constrain overall width */
+  margin: 0 auto;            /* Center the row container */
 }
 
+/* 5) Common "Card" Style for Both Sections */
+.contact-info,
 .form-container {
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #eef8ff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255,255,255,0.75);         /* Solid white card */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  flex: 1 1 400px;  /* Each card can shrink/grow, min 400px wide */
+  min-width: 300px; /* So it doesn’t get too narrow */
+  max-width: 500px; /* Optional max if you don’t want huge cards */
 }
 
-.support-block {
-    
+/* CONTACT US Card */
+.contact-info h2 {
+  color: #2D3748;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.contact-info p {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #4A5568;
+  line-height: 1.5;
+}
+.contact-info a {
+  color: #3182CE; /* Link color */
+  text-decoration: none;
+}
+.contact-info a:hover {
+  text-decoration: underline;
 }
 
+/* SUBMIT AN ISSUE Card (Form Container) */
+.form-container h2 {
+  color: #2D3748;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* The Form */
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
 }
 
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left; /* Labels & fields left-aligned */
+}
+
+/* Labels, Inputs, Textareas */
 label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #00ACFF;
-    font-family: "Body_font", sans-serif;
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #2D3748;
 }
 
 input, textarea {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #CBD5E0;
+  border-radius: 5px;
+  outline: none;
 }
 
 textarea {
-    min-height: 100px;
+  min-height: 120px;
 }
 
+/* Submit Button */
 .btn-submit {
-    background-color: #00ACFF;
-    color: #E4BDF2;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: bold;
+  display: inline-block;
+  background-color: #65CCF5;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem; /* slight space above the button */
 }
 
 .btn-submit:hover {
-    background-color: #E4BDF2;
-    color: #00ACFF;
+  background-color: #C53030;
 }
 
-h1 {
-    color: #00ACFF;
-    text-decoration: none;
-    padding: 10px 2px;
-    font-size: 65px;
-    font-family: "Header_font", sans-serif;
-}
-
-h2 {
-    color: #00ACFF;
-    font-size: 20px;
-    font-family: "Body_font", sans-serif;
-}
-
+/* Success Message */
 .success-message {
-    color: green;
-    font-weight: bold;
-    margin-top: 10px;
+  color: #38A169; /* A green shade */
+  font-weight: bold;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* 6) Responsive Behavior for Smaller Screens */
+@media (max-width: 768px) {
+  .support-row {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 

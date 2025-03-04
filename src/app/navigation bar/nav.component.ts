@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet, Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service'; // Import your AuthService
 
 @Component({
   selector: 'navigation',
   standalone: true,
-  imports: [RouterOutlet, RouterModule],
+  imports: [ RouterModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
 })

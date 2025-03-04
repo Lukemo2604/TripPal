@@ -1,118 +1,109 @@
-@font-face {
-    font-family: "Body_font";
-    src: url("/Fonts/Anek Devanagari.ttf") format("truetype");
-}
-
-
-
-/* Remove default body margin & padding */
-body, html {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Body_font", sans-serif;
-}
-
-/* Top Navigation Bar - Flush with Top */
+ 
 .topnav {
-    background-color: #ffffff;
-    overflow: hidden;
+    position: absolute;   /* So it overlays the hero */
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    top: 0; left: 0; right: 0;
+    background-color: transparent; /* Transparent so hero shows through */
+    color: #fff;          /* White text for contrast on the hero */
+    z-index: 999;         /* On top of the hero */
+    padding: 1rem 2rem;
+    box-shadow: none;     /* Remove shadow if you want a clean overlay */
+  }
+  
+  
+  /* Logo / Menu Icon */
+  .topnav .menu-icon {
+    margin-right: 1rem;
+    cursor: pointer;
+    
+  }
+  
+  .topnav .menu-icon img {
+    width: 150px;
+    height: auto;
+    margin-top: 10px;
+  }
+  
+  /* Navigation Links */
+  .topnav a {
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #2D3748;
+    margin: 0 1rem;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    
+  }
+  
+  .topnav a:hover {
+    color: #F56565; /* Hover highlight */
+  }
+  
+  /* -------------------------------------------
+     Side Navigation (drawer)
+  -------------------------------------------- */
+  .sidenav {
+    height: 100%;
+    width: 0; /* Hidden by default */
     position: fixed;
+    z-index: 999; 
     top: 0;
     left: 0;
-    width: 100%;
-    height: 50px; /* Set fixed height */
-    z-index: 1000; /* Ensure it's above other elements */
-}
-
-/* Style for navigation links */
-.topnav a {
-    color: #E4BDF2;
-    text-decoration: none;
-    padding: 14px 20px;
-    font-size: 18px;
-    font-family: "Body_font", sans-serif;
-}
-
-.topnav a:hover {
-    color: #00ACFF;
-}
-
-/* Push login to the right */
-.topnav .right {
-    margin-left: auto;
-}
-
-/* Hamburger Menu Icon */
-.menu-icon img {
-    height: 40px; /* Adjust as needed */
-    cursor: pointer; /* Ensures it looks clickable */
-}
-
-
-/* Side Navigation */
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    top: 50px; /* Move it down below the topnav */
-    left: 0;
-    background-color: #ffffff;
-    font-family: "Body_font", sans-serif;
+    background-color: #1A202C; 
     overflow-x: hidden;
-    padding-top: 20px; /* Extra spacing inside */
-    transition: 0.5s;
-    z-index: 999; /* Ensure it's below topnav */
-}
-
-/* Ensure sidenav content starts lower */
-.sidenav a {
-    padding: 15px 30px;
-    text-decoration: none;
-    font-size: 22px;
-    color: #E4BDF2;
+    padding-top: 3rem;
+    transition: 0.5s; /* Slide in/out transition */
+  }
+  
+  .sidenav a {
     display: block;
-    transition: 0.3s;
-}
-
-.sidenav a:hover {
-    color: #00ACFF;
-}
-
-/* Close Button */
-.sidenav .closebtn {
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: #CBD5E0;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .sidenav a:hover {
+    background-color: #2D3748;
+    color: #FFFFFF;
+  }
+  
+  /* Close “X” button */
+  .sidenav .closebtn {
+    font-size: 2rem;
     position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 36px;
+    top: 1rem;
+    right: 1.5rem;
+    color: #FFFFFF;
     cursor: pointer;
-}
-
-.sidenav button {
-    padding: 15px 30px;
-    text-decoration: none;
-    font-size: 22px;
-    color: #E4BDF2;
+  }
+  
+  /* Logout (Danger) Button */
+  .danger-btn {
     display: block;
-    transition: 0.3s;
-    background: none ;
+    width: calc(100% - 4rem);
+    margin: 1rem 2rem 0;
+    padding: 0.8rem 1rem;
+    text-align: center;
+    background-color: #F56565;
     border: none;
-    font-family: "Body_font", sans-serif;
-
-}
-
-.sidenav button:hover {
-    color: #FF5C5C;
-}
-
-/* Adjust main content to not hide behind navbar */
-#main {
-    margin-top: 50px; /* Space for fixed navbar */
-    padding: 20px;
-}
-
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .danger-btn:hover {
+    background-color: #C53030;
+  }
+  
 
 
