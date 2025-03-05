@@ -1,98 +1,141 @@
 <!-- login.component.html -->
-<div class="home-container">
-    <h1>Log In</h1>
-    <p class="subtitle">Access your account and continue your journey.</p>
-  
-    <!-- Show errors if login fails -->
-    <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
-  
-    <!-- Login Form -->
-    <div class="form-container">
-      <form (ngSubmit)="login()">
-        <div class="form-group">
-          <label for="username">email</label>
-          <!-- Just add [(ngModel)]="username" and name="username" -->
-          <input
-            type="text"
-            id="username"
-            name="username"
-            class="form-control"
-            placeholder="Enter email"
-            required
-            [(ngModel)]="username"
-          />
-        </div>
-  
-        <div class="form-group">
-          <label for="password">Password</label>
-          <!-- Add [(ngModel)]="password" and name="password" -->
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="form-control"
-            placeholder="Enter password"
-            required
-            [(ngModel)]="password"
-          />
-        </div>
-  
-        <button type="submit" class="btn-submit">Log In</button>
-      </form>
-  
-      <p class="toggle-text">
-        Don't have an account?
-        <button (click)="toggleSignupForm()" class="btn-toggle">Create Account</button>
-      </p>
-    </div>
-  
-    <!-- Sign-Up Form (Initially Hidden) -->
-    <div class="form-container signup-container" [class.show]="isSignupVisible">
-      <h2>Create an Account</h2>
-      <form (ngSubmit)="signup()">
-        <div class="form-group">
-          <label for="new-username">Username</label>
-          <input
-            type="text"
-            id="new-username"
-            name="new-username"
-            class="form-control"
-            placeholder="Choose a username"
-            required
-            [(ngModel)]="newUsername"
-          />
-        </div>
-  
-        <div class="form-group">
-          <label for="new-email">Email</label>
-          <input
-            type="email"
-            id="new-email"
-            name="new-email"
-            class="form-control"
-            placeholder="Enter your email"
-            required
-            [(ngModel)]="newEmail"
-          />
-        </div>
-  
-        <div class="form-group">
-          <label for="new-password">Password</label>
-          <input
-            type="password"
-            id="new-password"
-            name="new-password"
-            class="form-control"
-            placeholder="Create a password"
-            required
-            [(ngModel)]="newPassword"
-          />
-        </div>
-  
-        <button type="submit" class="btn-submit">Sign Up</button>
-      </form>
-    </div>
+<div class="90vh pb-15 min-h-screen text-white flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-black">
+
+  <!-- Page Heading -->
+  <div class="text-container text-center mb-8">
+    <h1 class="text-4xl font-bold">Log In</h1>
+    <p class="mt-2 text-lg text-gray-300">
+      Access your account and continue your journey.
+    </p>
   </div>
-  
-  <support></support>
-  
+
+  <!-- Error Message (if any) -->
+  <div *ngIf="errorMsg" class="mb-4 text-red-400 font-medium">
+    {{ errorMsg }}
+  </div>
+
+  <!-- Login Card -->
+  <div class="login-card bg-white text-black w-full max-w-md p-8 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold mb-6">Log In</h2>
+    <form (ngSubmit)="login()" class="space-y-5">
+      <!-- Email Field -->
+      <div>
+        <label for="username" class="block text-gray-700 font-medium mb-1">
+          Email
+        </label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="username"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          placeholder="Enter email"
+          required
+        />
+      </div>
+
+      <!-- Password Field -->
+      <div>
+        <label for="password" class="block text-gray-700 font-medium mb-1">
+          Password
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          placeholder="Enter password"
+          required
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="w-full bg-[#65ccf5] text-white font-semibold py-2 rounded-md hover:bg-[#4db5dd] transition"
+      >
+        Log In
+      </button>
+    </form>
+
+    <!-- Toggle Sign-Up Form -->
+    <p class="text-center mt-6 text-gray-700">
+      Don’t have an account?
+      <button
+        (click)="toggleSignupForm()"
+        class="text-[#65ccf5] font-semibold hover:underline ml-1"
+      >
+        Create Account
+      </button>
+    </p>
+  </div>
+
+  <!-- Sign-Up Card (Initially Hidden) -->
+  <div
+    class="signup-card bg-white text-black w-full max-w-md p-8 rounded-lg shadow-md mt-8"
+    [class.hidden]="!isSignupVisible"
+  >
+    <h2 class="text-2xl font-semibold mb-6">Create an Account</h2>
+    <form (ngSubmit)="signup()" class="space-y-5">
+      <!-- Username Field -->
+      <div>
+        <label for="new-username" class="block text-gray-700 font-medium mb-1">
+          Username
+        </label>
+        <input
+          type="text"
+          id="new-username"
+          name="new-username"
+          [(ngModel)]="newUsername"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          placeholder="Choose a username"
+          required
+        />
+      </div>
+
+      <!-- Email Field -->
+      <div>
+        <label for="new-email" class="block text-gray-700 font-medium mb-1">
+          Email
+        </label>
+        <input
+          type="email"
+          id="new-email"
+          name="new-email"
+          [(ngModel)]="newEmail"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+
+      <!-- Password Field -->
+      <div>
+        <label for="new-password" class="block text-gray-700 font-medium mb-1">
+          Password
+        </label>
+        <input
+          type="password"
+          id="new-password"
+          name="new-password"
+          [(ngModel)]="newPassword"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          placeholder="Create a password"
+          required
+        />
+      </div>
+
+      <!-- Sign Up Button -->
+      <button
+        type="submit"
+        class="w-full bg-[#65ccf5] text-white font-semibold py-2 rounded-md hover:bg-[#4db5dd] transition"
+      >
+        Sign Up
+      </button>
+    </form>
+  </div>
+</div>
+<div class="p-15 gradiant-articlespinkfade"></div>
+<div class="p-30 gradiant-articlesblack"></div>
+<support></support>

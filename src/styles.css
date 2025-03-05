@@ -13,6 +13,34 @@ html {
     background-position: 0 0, 10px 10px;
 }
 
+.gradiant-articlesblack {
+    background-image: radial-gradient(#db80ff 0.5px, transparent 0.5px), radial-gradient(#db80ff 0.5px, transparent 0.5px), linear-gradient(to top,white 0%, rgb(26, 26, 26) 80%, black 100%);;
+    background-size: 20px 20px, 20px 20px, 100% 100%;
+    background-position: 0 0, 10px 10px, 0 0;   
+}
+
+.gradiant-articlespinkfade {
+    position: relative;
+    background-color: black; /* base remains black */
+  }
+  
+  /* Pseudo-element for the dotted pattern that fades in */
+  .gradiant-articlespinkfade::after {
+    content: "";
+    position: absolute;
+    inset: 0; /* covers the entire element */
+    pointer-events: none; /* allow interactions on underlying content */
+    background-image: 
+      radial-gradient(#db80ff 0.5px, transparent 0.5px),
+      radial-gradient(#db80ff 0.5px, #000000 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    /* Use a mask so that the dotted pattern is transparent at the top and fully opaque at the bottom */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  }
+  
+
 .video-block:hover button {
     color: rgb(168, 85, 247);
 }
