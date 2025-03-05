@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { SupportComponent } from "../support/support.component";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Typewriter from 'typewriter-effect/dist/core';
+
 
 @Component({
   selector: 'homepage',
@@ -12,14 +14,18 @@ import 'aos/dist/aos.css';
   templateUrl: './home.component.html',
 
 })
-export class HomeComponent implements AfterViewInit{
-
+export class HomeComponent implements AfterViewInit {
   ngAfterViewInit(): void {
-    AOS.init({
-      duration: 800,
-      once: true,
-    });
+    AOS.init({ duration: 800, once: true });
+    const app = document.getElementById('typing');
+    if (app) {
+      const typewriter = new Typewriter(app, { loop: true });
+      typewriter.typeString('Trip Planning tool for your next vacation')
+                .pauseFor(5000)
+                .start();
+    }
   }
+
 
   constructor(private router: Router) {} // Inject Router in the constructor
 
