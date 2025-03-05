@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './support.component.html',
-  styleUrl: './support.component.css',
+  
 })
 export class SupportComponent {
   supportData = {

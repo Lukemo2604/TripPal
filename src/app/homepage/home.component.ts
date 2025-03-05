@@ -1,16 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SupportComponent } from "../support/support.component";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 @Component({
   selector: 'homepage',
   standalone: true,
   imports: [CommonModule, SupportComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit{
+
+  ngAfterViewInit(): void {
+    AOS.init({
+      duration: 800,
+      once: true,
+    });
+  }
 
   constructor(private router: Router) {} // Inject Router in the constructor
 
