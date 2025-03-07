@@ -1,202 +1,243 @@
-<div *ngIf="showPopup" class="popup-message">
+
+<div *ngIf="showPopup" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-[#65ccf5] text-white px-4 py-2 rounded shadow z-50">
   {{ popupMessage }}
 </div>
 
-<div class="trip-container" *ngIf="editTrip">
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <h2>Trip: {{ editTrip.location }}</h2>
-    <label>Location:
-      <input #locInput [(ngModel)]="editTrip.location" name="location" placeholder="Where to?" />
-    </label>
-    <label>Start Date:
-      <input [(ngModel)]="editTrip.startDate" type="date" name="startDate" />
-    </label>
-    <label>End Date:
-      <input [(ngModel)]="editTrip.endDate" type="date" name="endDate" />
-    </label>
+<div *ngIf="editTrip" class="flex h-screen grid grid-cols-[auto_1fr] bg-black text-white">
 
-    <!-- Flights mini form -->
-    <button class="primary-btn" (click)="toggleFlights()">
-      {{ expandFlights ? 'Flight Details' : 'Show Flights' }}
-    </button>
-    <div *ngIf="expandFlights && editTrip?.flights as flights" class="flight-container">
-      <h4>Flights</h4>
-      <div class="flight-columns">
-        <!-- Departing Flight Column -->
-        <div class="flight-section">
-          <h5>Departing Flight</h5>
-          <label>Flight Number:
-            <input type="text" [(ngModel)]="flights.departing.flightNumber" name="departingFlightNumber" required />
-          </label>
-          <div class="flight-row">
-            <label>Departure Time:
-              <input type="time" [(ngModel)]="flights.departing.departureTime" name="departingDepartureTime" required />
-            </label>
-            <label>Arrival Time:
-              <input type="time" [(ngModel)]="flights.departing.arrivalTime" name="departingArrivalTime" required />
-            </label>
-          </div>
-        </div>
-        <!-- Arriving Flight Column -->
-        <div class="flight-section">
-          <h5>Arriving Flight</h5>
-          <label>Flight Number:
-            <input type="text" [(ngModel)]="flights.arriving.flightNumber" name="arrivingFlightNumber" required />
-          </label>
-          <div class="flight-row">
-            <label>Departure Time:
-              <input type="time" [(ngModel)]="flights.arriving.departureTime" name="arrivingDepartureTime" required />
-            </label>
-            <label>Arrival Time:
-              <input type="time" [(ngModel)]="flights.arriving.arrivalTime" name="arrivingArrivalTime" required />
-            </label>
+  <!-- Sidebar -->
+  <aside class="overflow-y-auto p-6 pt-40 bg-gray-800">
+    <h2 class="text-2xl font-bold mb-4">Trip: {{ editTrip.location }}</h2>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-gray-300 font-medium">Location:</label>
+        <input #locInput [(ngModel)]="editTrip.location" name="location" placeholder="Where to?" 
+               class="w-full px-3 py-2 rounded border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+      </div>
+      <div>
+        <label class="block text-gray-300 font-medium">Start Date:</label>
+        <input [(ngModel)]="editTrip.startDate" type="date" name="startDate" 
+               class="w-full px-3 py-2 rounded border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+      </div>
+      <div>
+        <label class="block text-gray-300 font-medium">End Date:</label>
+        <input [(ngModel)]="editTrip.endDate" type="date" name="endDate" 
+               class="w-full px-3 py-2 rounded border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+      </div>
+
+      <!-- Flights Mini Form -->
+      <div>
+        <button (click)="toggleFlights()"
+                class="w-full bg-[#65ccf5] hover:bg-[#4db5dd] text-white font-semibold py-2 rounded-md transition">
+          {{ expandFlights ? 'Flight Details' : 'Show Flights' }}
+        </button>
+        <div *ngIf="expandFlights && editTrip?.flights as flights" class="mt-4">
+          <h4 class="text-lg font-bold mb-2">Flights</h4>
+          <div class="grid grid-cols-1 gap-4">
+            <!-- Departing Flight -->
+            <div class="bg-gray-700 p-3 rounded">
+              <h5 class="font-semibold">Departing Flight</h5>
+              <div class="mt-2">
+                <label class="block text-gray-300 text-sm">Flight Number:</label>
+                <input type="text" [(ngModel)]="flights.departing.flightNumber" name="departingFlightNumber" required
+                       class="w-full px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+              </div>
+              <div class="mt-2 grid grid-cols-2 gap-2">
+                <label class="block text-gray-300 text-sm">
+                  Departure Time:
+                  <input type="time" [(ngModel)]="flights.departing.departureTime" name="departingDepartureTime" required
+                         class="w-full px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                </label>
+                <label class="block text-gray-300 text-sm">
+                  Arrival Time:
+                  <input type="time" [(ngModel)]="flights.departing.arrivalTime" name="departingArrivalTime" required
+                         class="w-full px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                </label>
+              </div>
+            </div>
+            <!-- Arriving Flight -->
+            <div class="bg-gray-700 p-3 rounded">
+              <h5 class="font-semibold">Arriving Flight</h5>
+              <div class="mt-2">
+                <label class="block text-gray-300 text-sm">Flight Number:</label>
+                <input type="text" [(ngModel)]="flights.arriving.flightNumber" name="arrivingFlightNumber" required
+                       class="w-full px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+              </div>
+              <div class="mt-2 grid grid-cols-2 gap-2">
+                <label class="block text-gray-300 text-sm">
+                  Departure Time:
+                  <input type="time" [(ngModel)]="flights.arriving.departureTime" name="arrivingDepartureTime" required
+                         class="w-full px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                </label>
+                <label class="block text-gray-300 text-sm">
+                  Arrival Time:
+                  <input type="time" [(ngModel)]="flights.arriving.arrivalTime" name="arrivingArrivalTime" required
+                         class="w-full px-2 py-1 rounded border border-gray-600 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <label>Accommodation:
-      <input #accomInput [(ngModel)]="editTrip.accommodation" name="accommodation" placeholder="Hotel name?" />
-    </label>
-    <label>Budget:
-      <input [(ngModel)]="editTrip.budget" type="number" name="budget" />
-    </label>
-    <label>Notes:
-      <textarea [(ngModel)]="editTrip.notes" name="notes"></textarea>
-    </label>
-
-    <!-- FamilyAttending array -->
-    <h4>Family Attending</h4>
-    <div *ngIf="editTrip.familyAttending?.length; else noFam">
-      <ul class="family-list">
-        <li *ngFor="let fam of editTrip.familyAttending">
-          <label>
-            <input type="checkbox" [(ngModel)]="fam.attending" name="fam{{fam.name}}" />
-            <span class="fam-name">{{ fam.name }}</span>
-          </label>
-        </li>
-      </ul>
-    </div>
-    <ng-template #noFam>
-      <p>No family members listed.</p>
-    </ng-template>
-
-    <button class="primary-btn" (click)="saveTrip()">Save</button>
-    <button class="danger-btn" (click)="deleteTrip()">Delete Trip</button>
-  </div>
-
-  <!-- Map + multi-day itinerary area -->
-  <div class="map-area">
-    <google-map
-      [center]="mapCenter"
-      [zoom]="zoom"
-      [options]="mapOptions"
-      (mapClick)="onMapClicked($event)"
-      height="600px"
-      width="600px"
-    >
-    </google-map>
-
-    <!-- Itinerary split by day -->
-    <div class="itinerary">
-      <h4>Itinerary</h4>
-      <div *ngFor="let d of days" class="day-card">
-        <div class="day-header" (click)="toggleDay(d.dayIndex)">
-          <h5>Day {{ d.dayIndex }} ({{ d.date }})</h5>
-          <span class="toggle-indicator">
-            {{ isDayExpanded(d.dayIndex) ? '-' : '+' }}
-          </span>
-        </div>
-        <div class="day-content" *ngIf="isDayExpanded(d.dayIndex)">
-          <!-- List items for this day -->
-          <ul>
-            <li class="itinerary-item" *ngFor="let item of getItineraryItemsForDay(d.dayIndex)">
-              <label>
-                <span>Place:</span>
-                <input [(ngModel)]="item.placeName" name="placeName{{item.dayIndex}}" type="text" />
+      <div>
+        <label class="block text-gray-300 font-medium">Accommodation:</label>
+        <input #accomInput [(ngModel)]="editTrip.accommodation" name="accommodation" placeholder="Hotel name?" 
+               class="w-full px-3 py-2 rounded border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+      </div>
+      <div>
+        <label class="block text-gray-300 font-medium">Budget:</label>
+        <input [(ngModel)]="editTrip.budget" type="number" name="budget" 
+               class="w-full px-3 py-2 rounded border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+      </div>
+      <div>
+        <label class="block text-gray-300 font-medium">Notes:</label>
+        <textarea [(ngModel)]="editTrip.notes" name="notes" 
+                  class="w-full px-3 py-2 rounded border border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#65ccf5]"></textarea>
+      </div>
+      <!-- Family Attending -->
+      <div>
+        <h4 class="text-lg font-bold mt-4">Family Attending</h4>
+        <div *ngIf="editTrip.familyAttending?.length; else noFam" class="mt-2">
+          <ul class="space-y-2">
+            <li *ngFor="let fam of editTrip.familyAttending" class="flex items-center space-x-2">
+              <label class="flex items-center">
+                <input type="checkbox" [(ngModel)]="fam.attending" name="fam{{fam.name}}" class="mr-2" />
+                <span>{{ fam.name }}</span>
               </label>
-              <label>
-                <span>Start:</span>
-                <input [(ngModel)]="item.startTime" name="startTime{{item.dayIndex}}" type="time" />
-              </label>
-              <label>
-                <span>End:</span>
-                <input [(ngModel)]="item.endTime" name="endTime{{item.dayIndex}}" type="time" />
-              </label>
-              <label>
-                <span>Cost:</span>
-                <input [(ngModel)]="item.cost" name="cost{{item.dayIndex}}" type="number" />
-              </label>
-              <button class="danger-btn" (click)="removeItineraryItem(editTrip!.itinerary.indexOf(item))">
-                Remove
-              </button>
             </li>
           </ul>
-          <!-- Add Custom Activity form for this day -->
-          <div class="add-activity-form">
-            <h5>Add Custom Activity (Day {{ d.dayIndex }})</h5>
-            <label>
-              Place Name:
-              <input [(ngModel)]="newActivityForDay[d.dayIndex].placeName" name="newActivityPlaceDay{{ d.dayIndex }}" type="text" />
-            </label>
-            <div class="time-cost-row">
-              <label>
-                Start:
-                <input [(ngModel)]="newActivityForDay[d.dayIndex].startTime" type="time" name="newActivityStartDay{{ d.dayIndex }}" />
-              </label>
-              <label>
-                End:
-                <input [(ngModel)]="newActivityForDay[d.dayIndex].endTime" type="time" name="newActivityEndDay{{ d.dayIndex }}" />
-              </label>
-              <label>
-                Cost:
-                <input [(ngModel)]="newActivityForDay[d.dayIndex].cost" type="number" name="newActivityCostDay{{ d.dayIndex }}" />
-              </label>
-            </div>
-            <button class="primary-btn" (click)="addCustomActivity(d.dayIndex)">
-              Add Activity
-            </button>
-          </div>
         </div>
+        <ng-template #noFam>
+          <p class="text-gray-400">No family members listed.</p>
+        </ng-template>
+      </div>
+      <div class="mt-4 space-y-2">
+        <button (click)="saveTrip()" class="w-full bg-[#65ccf5] hover:bg-[#4db5dd] text-white font-semibold py-2 rounded-md transition">
+          Save
+        </button>
+        <button (click)="deleteTrip()" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-md transition">
+          Delete Trip
+        </button>
       </div>
     </div>
 
-    <!-- Recommendation Section -->
-    <div class="recommendation-section">
-      <h4>Recommended Activities</h4>
-      <button class="primary-btn" (click)="getRecommendations()">Get Recommendations</button>
-      <ul *ngIf="recommendations && recommendations.length">
-        <li *ngFor="let rec of recommendations">
-          <div class="recommendation-item">
-            <strong>{{ rec.name }}</strong>
-            <p *ngIf="rec.formatted_address">Address: {{ rec.formatted_address }}</p>
-            <p *ngIf="rec.rating">Rating: {{ rec.rating }}</p>
-            <p *ngIf="rec.types">Types: {{ rec.types.join(', ') }}</p>
-            <img
-              *ngIf="rec.photo_url"
-              [src]="rec.photo_url"
-              alt="Photo of {{ rec.name }}"
-              style="max-width: 400px; margin-top: 10px;"
-            />
-            <!-- New add-to-day section -->
-            <div class="add-to-day">
-              <label>Select Day:</label>
-              <select #daySelect>
-                <option *ngFor="let day of days" [value]="day.dayIndex">
-                  Day {{ day.dayIndex }} - {{ day.date }}
-                </option>
-              </select>
-              <button class="primary-btn" (click)="addRecommendationToDay(rec, daySelect.value)">
-                Add to Day
-              </button>
+    <!-- Map & Itinerary Area -->
+    <div class="flex-1 p-6">
+      <!-- Itinerary Section -->
+      <div class="bg-white text-black p-6 rounded-lg shadow-md mb-8">
+        <h4 class="text-2xl font-bold mb-4">Itinerary</h4>
+        <div *ngFor="let d of days" class="mb-4 border-b border-gray-300 pb-4">
+          <div class="flex justify-between items-center cursor-pointer" (click)="toggleDay(d.dayIndex)">
+            <h5 class="text-xl font-semibold">Day {{ d.dayIndex }} ({{ d.date }})</h5>
+            <span class="text-2xl font-bold">
+              {{ isDayExpanded(d.dayIndex) ? '-' : '+' }}
+            </span>
+          </div>
+          <div *ngIf="isDayExpanded(d.dayIndex)" class="mt-4">
+            <ul class="space-y-2">
+              <li *ngFor="let item of getItineraryItemsForDay(d.dayIndex)" class="flex flex-col md:flex-row md:items-center md:justify-between space-y-2 md:space-y-0">
+                <div class="flex-1 flex flex-col md:flex-row md:items-center space-y-1 md:space-x-4">
+                  <label class="flex items-center space-x-1">
+                    <span class="font-medium">Place:</span>
+                    <input [(ngModel)]="item.placeName" name="placeName{{item.dayIndex}}" type="text" 
+                           class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                  </label>
+                  <label class="flex items-center space-x-1">
+                    <span class="font-medium">Start:</span>
+                    <input [(ngModel)]="item.startTime" name="startTime{{item.dayIndex}}" type="time" 
+                           class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                  </label>
+                  <label class="flex items-center space-x-1">
+                    <span class="font-medium">End:</span>
+                    <input [(ngModel)]="item.endTime" name="endTime{{item.dayIndex}}" type="time" 
+                           class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                  </label>
+                  <label class="flex items-center space-x-1">
+                    <span class="font-medium">Cost:</span>
+                    <input [(ngModel)]="item.cost" name="cost{{item.dayIndex}}" type="number" 
+                           class="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                  </label>
+                </div>
+                <button (click)="removeItineraryItem(editTrip!.itinerary.indexOf(item))" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-md transition">
+                  Remove
+                </button>
+              </li>
+            </ul>
+            <!-- Add Custom Activity Form -->
+            <div class="mt-4">
+              <h5 class="font-bold mb-2">Add Custom Activity (Day {{ d.dayIndex }})</h5>
+              <div class="space-y-2">
+                <label class="block">
+                  Place Name:
+                  <input [(ngModel)]="newActivityForDay[d.dayIndex].placeName" name="newActivityPlaceDay{{ d.dayIndex }}" type="text" 
+                         class="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                </label>
+                <div class="grid grid-cols-3 gap-2">
+                  <label class="block">
+                    Start:
+                    <input [(ngModel)]="newActivityForDay[d.dayIndex].startTime" type="time" name="newActivityStartDay{{ d.dayIndex }}" 
+                           class="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                  </label>
+                  <label class="block">
+                    End:
+                    <input [(ngModel)]="newActivityForDay[d.dayIndex].endTime" type="time" name="newActivityEndDay{{ d.dayIndex }}" 
+                           class="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                  </label>
+                  <label class="block">
+                    Cost:
+                    <input [(ngModel)]="newActivityForDay[d.dayIndex].cost" type="number" name="newActivityCostDay{{ d.dayIndex }}" 
+                           class="w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#65ccf5]" />
+                  </label>
+                </div>
+                <button (click)="addCustomActivity(d.dayIndex)" class="bg-[#65ccf5] hover:bg-[#4db5dd] text-white font-semibold py-2 px-4 rounded-md transition">
+                  Add Activity
+                </button>
+              </div>
             </div>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
+
+      <!-- Recommendation Section -->
+      <div class="bg-white text-black p-6 rounded-lg shadow-md">
+        <h4 class="text-2xl font-bold mb-4">Recommended Activities</h4>
+        <button (click)="getRecommendations()" class="bg-[#65ccf5] hover:bg-[#4db5dd] text-white font-semibold py-2 px-4 rounded-md transition mb-4">
+          Get Recommendations
+        </button>
+        <ul *ngIf="recommendations && recommendations.length" class="space-y-4">
+          <li *ngFor="let rec of recommendations" class="border border-gray-300 p-4 rounded-md">
+            <div class="recommendation-item">
+              <strong class="block text-lg">{{ rec.name }}</strong>
+              <p *ngIf="rec.formatted_address" class="text-gray-600">Address: {{ rec.formatted_address }}</p>
+              <p *ngIf="rec.rating" class="text-gray-600">Rating: {{ rec.rating }}</p>
+              <p *ngIf="rec.types" class="text-gray-600">Types: {{ rec.types.join(', ') }}</p>
+              <img *ngIf="rec.photo_url" [src]="rec.photo_url" alt="Photo of {{ rec.name }}" class="mt-2 rounded-md max-w-full" style="max-width: 400px;" />
+              <!-- Add-to-day section -->
+              <div class="mt-4 flex items-center space-x-2">
+                <label class="font-medium">Select Day:</label>
+                <select #daySelect class="px-2 py-1 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#65ccf5]">
+                  <option *ngFor="let day of days" [value]="day.dayIndex">
+                    Day {{ day.dayIndex }} - {{ day.date }}
+                  </option>
+                </select>
+                <button (click)="addRecommendationToDay(rec, daySelect.value)" class="bg-[#65ccf5] hover:bg-[#4db5dd] text-white font-semibold py-2 px-4 rounded-md transition">
+                  Add to Day
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
+  </aside>
+  <!-- Google Map -->
+  <div class="flex-1 relative">
+    <app-trip-map 
+    [location]="editTrip.location || null"
+    (placeClicked)="handleMapPlace($event)" 
+    style="height: 100%; width: 100%;"
+    ></app-trip-map>
   </div>
 </div>
-
 <support></support>
-

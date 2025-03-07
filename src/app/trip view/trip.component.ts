@@ -8,6 +8,7 @@ import { tripPalMapStyles } from '../map/map-styles'; // Custom map styles
 import { TripsService, Trip, ItineraryItem } from '../services/trips.service';
 import { SupportComponent } from '../support/support.component';
 import { UserService, UserData, FamilyMember } from '../services/user.service';
+import { TripMapComponent } from '../map/trip-map.component';
 
 interface DayInfo {
   dayIndex: number;   // e.g. 1, 2, 3
@@ -20,12 +21,12 @@ interface DayInfo {
   selector: 'app-trip-detail',
   standalone: true,
   templateUrl: './trip.component.html',
-  styleUrls: ['./trip.component.css'],
   imports: [
     CommonModule,
     FormsModule,
     SupportComponent,
-    GoogleMapsModule
+    GoogleMapsModule,
+    TripMapComponent
   ]
 }) 
 export class TripComponent implements OnInit {
@@ -39,14 +40,6 @@ export class TripComponent implements OnInit {
   expandedDays: { [key: number]: boolean } = {};
   recommendations: any[] = [];
   userData: UserData | null = null;
-
-  // Default map center
-  mapCenter = { lat: 40.7128, lng: -74.0060 };
-  zoom = 14;
-
-  mapOptions: google.maps.MapOptions = {
-    styles: tripPalMapStyles,
-  };
 
   // Popup for save/delete feedback
   popupMessage: string = '';
@@ -85,11 +78,6 @@ export class TripComponent implements OnInit {
             departing: { flightNumber: '', departureTime: '', arrivalTime: '' },
             arriving: { flightNumber: '', departureTime: '', arrivalTime: '' }
           };
-        }
-
-        // If there's a location, optionally recenter map
-        if (this.editTrip?.location) {
-          this.geocodeAddress(this.editTrip.location);
         }
 
         // Generate days between startDate and endDate
@@ -205,26 +193,6 @@ export class TripComponent implements OnInit {
         }
       );
   }
-  
-  
-  
-
-
-  private geocodeAddress(address: string): void {
-    if (!(window as any).google?.maps) {
-      console.warn('Google Maps script not loaded');
-      return;
-    }
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address }, (results, status) => {
-      if (status === 'OK' && results && results.length > 0) {
-        const latLng = results[0].geometry.location;
-        this.mapCenter = { lat: latLng.lat(), lng: latLng.lng() };
-      } else {
-        console.warn('Geocode was not successful for address "' + address + '": ' + status);
-      }
-    });
-  }
 
   toggleFlights(): void {
     this.expandFlights = !this.expandFlights;
@@ -274,43 +242,12 @@ export class TripComponent implements OnInit {
     });
   }
 
-  // Reverse geocode to get place name
-  onMapClicked(mapEvent: google.maps.MapMouseEvent): void {
+  handleMapPlace(newItem: ItineraryItem) {
     if (!this.editTrip) return;
-
-    const lat = mapEvent.latLng?.lat();
-    const lng = mapEvent.latLng?.lng();
-    if (lat == null || lng == null) return;
-
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-      if (status === 'OK' && results && results.length > 0) {
-        const placeName = results[0].formatted_address;
-        const newPlace: ItineraryItem = {
-          placeName: placeName || 'Map Pin',
-          lat,
-          lng,
-          startTime: '',
-          endTime: '',
-          cost: 0,
-          dayIndex: 1 // default to Day 1, or you can ask user which day
-        };
-        this.editTrip!.itinerary.push(newPlace);
-      } else {
-        console.warn('Reverse geocoding failed, status:', status);
-        const newPlace: ItineraryItem = {
-          placeName: 'Map Pin',
-          lat,
-          lng,
-          startTime: '',
-          endTime: '',
-          cost: 0,
-          dayIndex: 1
-        };
-        this.editTrip!.itinerary.push(newPlace);
-      }
-    });
-  }
+    // Add the item to the itinerary
+    this.editTrip.itinerary.push(newItem);
+    console.log('Map place added to itinerary:', newItem);
+  } 
 
   // Return itinerary items belonging to a given day
   getItineraryItemsForDay(dayIndex: number): ItineraryItem[] {

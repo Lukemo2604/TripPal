@@ -85,7 +85,7 @@ export class TripsComponent implements OnInit {
 
   // Initialize Google Places Autocomplete for newTrip form fields
   private initializeCreateTripAutocompletes(): void {
-    // Check if Google Maps script is loaded
+    
     if (!(window as any).google?.maps) {
       console.warn('Google Maps script not loaded or missing &libraries=places');
       return;

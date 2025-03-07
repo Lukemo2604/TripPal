@@ -1,125 +1,142 @@
-// src/app/trip-map.component.ts
 import {
-    Component,
-    OnInit,
-    ViewChild,
-    ElementRef,
-    AfterViewInit
-  } from '@angular/core';
-  import { CommonModule } from '@angular/common';
-  import { GoogleMapsModule, MapInfoWindow, MapMarker } from '@angular/google-maps';
-  
-  @Component({
-    selector: 'app-trip-map',
-    standalone: true,
-    imports: [
-      CommonModule,
-      GoogleMapsModule
-    ],
-    template: `
-      <div class="map-container">
-        <google-map
-          height="500px"
-          width="100%"
-          [center]="center"
-          [zoom]="zoom"
-          (mapClick)="onMapClick($event)">
-        </google-map>
-  
-        <div class="place-log">
-          <h3>Clicked Places</h3>
-          <ul>
-            <li *ngFor="let item of itinerary">
-              {{ item.placeName }} ({{ item.lat }}, {{ item.lng }})
-            </li>
-          </ul>
-        </div>
-      </div>
-    `,
-    styles: [`
-      .map-container {
-        position: relative;
-        width: 100%;
-      }
-      .place-log {
-        margin-top: 20px;
-      }
-      ul {
-        list-style: none;
-        padding-left: 0;
-      }
-    `]
-  })
-  export class TripMapComponent implements OnInit, AfterViewInit {
-    center: google.maps.LatLngLiteral = { lat: 40.7128, lng: -74.0060 }; // default to NYC
-    zoom = 12;
-  
-    // A simplified itinerary: array of clicked places
-    itinerary: { lat: number; lng: number; placeName: string }[] = [];
-  
-    map!: google.maps.Map; // We'll reference the raw Map object if needed
-    mapLoaded = false;
-  
-    ngOnInit(): void {
-      // Could set center dynamically or from a trip's lat/lng
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { GoogleMapsModule, GoogleMap } from '@angular/google-maps';
+import { tripPalMapStyles } from './map-styles';
+
+
+/** Example itinerary interface - match your actual structure. */
+export interface ItineraryItem {
+  placeName: string;
+  lat: number;
+  lng: number;
+  startTime: string;
+  endTime: string;
+  cost: number;
+  dayIndex: number;
+}
+
+@Component({
+  selector: 'app-trip-map',
+  standalone: true,
+  imports: [CommonModule, GoogleMapsModule],
+  template: `
+    <div class="map-container relative w-full h-full">
+      <google-map
+        [center]="center"
+        [zoom]="zoom"
+        [options]="mapOptions"
+        (mapClick)="onMapClick($event)"
+        class="test absolute inset-0 object-cover"
+        style="width: 100%; height: 100%;"
+      >
+      </google-map>
+    </div>
+  `,
+  styles: [`
+    .map-container {
+      position: relative;
+      height: 100%;
+      width: 100%;
     }
   
-    ngAfterViewInit(): void {
-      // The <google-map> component automatically loads
-      // If we want the raw map instance:
-      // We can get it by hooking into the *MapReady* event
+    ::ng-deep google-map > div {
+    width: 100% !important;
+    height: 100% !important;
     }
-  
-    onMapClick(event: google.maps.MapMouseEvent): void {
-      if (!event.latLng) return;
-  
-      const lat = event.latLng.lat();
-      const lng = event.latLng.lng();
-  
-      // Option A: Just store a "custom place"
-      // Option B: use PlacesService to find a nearby place
-      this.findNearestPlace(lat, lng);
-    }
-  
-    // Example method using the Places library (PlaceSearch)
-    private findNearestPlace(lat: number, lng: number) {
-      // We need the raw map object for PlacesService. We'll do a short hack:
-      // The @angular/google-maps <google-map> has a 'mapInitialized' event, or:
-      if (!window.google?.maps) return;
-  
-      // Create a dummy map or if we have a ref to the real map object
-      // Because @angular/google-maps v13+ can give a map reference in a separate event
-      const mapDiv = document.createElement('div');
-      const tempMap = new google.maps.Map(mapDiv);
-      const service = new google.maps.places.PlacesService(tempMap);
-  
-      const request: google.maps.places.PlaceSearchRequest = {
-        location: new google.maps.LatLng(lat, lng),
-        radius: 10 // search within 10 meters
-      };
-  
-      service.nearbySearch(request, (results, status) => {
-        if (
-          status === google.maps.places.PlacesServiceStatus.OK &&
-          results?.length
-        ) {
-          // Found a recognized place
-          const place = results[0];
-          const name = place.name || 'Unnamed Place';
-          this.itinerary.push({
-            lat,
-            lng,
-            placeName: name
-          });
-        } else {
-          // No recognized place, store a custom location
-          this.itinerary.push({
-            lat,
-            lng,
-            placeName: 'Custom Place'
-          });
-        }
-      });
+
+  `]
+})
+export class TripMapComponent implements OnInit {
+  @ViewChild('googleMap') googleMap!: GoogleMap;
+  @Input() location: string | null = null;
+  @Output() placeClicked = new EventEmitter<ItineraryItem>();
+  center: google.maps.LatLngLiteral = { lat: 40.7128, lng: -74.0060 }; // default
+  zoom = 12;
+
+  mapOptions: google.maps.MapOptions = {
+    styles: tripPalMapStyles,
+  };
+
+  ngOnInit(): void {
+    // If we have a location from the parent, geocode it to recenter the map
+    if (this.location) {
+      this.geocodeAddress(this.location);
     }
   }
+
+  /**
+   * Called whenever the user clicks on the map
+   */
+  onMapClick(event: google.maps.MapMouseEvent) {
+    if (!event.latLng) return;
+
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
+
+    // Reverse-geocode to find a place name
+    this.reverseGeocode(lat, lng).then(placeName => {
+      // Build a new itinerary item (default dayIndex = 1, or decide logic)
+      const newItem: ItineraryItem = {
+        placeName,
+        lat,
+        lng,
+        startTime: '',
+        endTime: '',
+        cost: 0,
+        dayIndex: 1
+      };
+      // Emit to parent
+      this.placeClicked.emit(newItem);
+    });
+  }
+
+  private geocodeAddress(address: string): void {
+    if (!(window as any).google?.maps) {
+      console.warn('Google Maps script not loaded');
+      return;
+    }
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address }, (results, status) => {
+      if (status === 'OK' && results && results.length > 0) {
+        const latLng = results[0].geometry.location;
+        this.center = { lat: latLng.lat(), lng: latLng.lng() };
+      } else {
+        console.warn('Geocode was not successful for address "' + address + '": ' + status);
+      }
+    });
+  }
+
+  private reverseGeocode(lat: number, lng: number): Promise<string> {
+    return new Promise(resolve => {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+        if (status === 'OK' && results && results.length > 0) {
+          resolve(results[0].formatted_address || 'Map Pin');
+        } else {
+          resolve('Map Pin');
+        }
+      });
+    });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      if (this.googleMap && this.googleMap.googleMap) {
+        const map: google.maps.Map = this.googleMap.googleMap;
+        google.maps.event.trigger(map, 'resize');
+      }
+    }, 200);
+  }
+  
+  
+}
+
   

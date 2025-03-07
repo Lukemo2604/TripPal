@@ -3,7 +3,7 @@ body,
 html {
     font-family: "Lato", sans-serif;
     scroll-behavior: smooth !important;
-}
+}  
 
 .login-container {
     height: 85vh;
