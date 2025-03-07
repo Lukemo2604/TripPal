@@ -9,7 +9,6 @@ import { SupportComponent } from '../support/support.component';
   selector: 'app-trips',
   standalone: true,
   templateUrl: './trips.component.html',
-  styleUrls: ['./trips.component.css'],
   imports: [FormsModule, CommonModule, SupportComponent]
 })
 export class TripsComponent implements OnInit {

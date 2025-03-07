@@ -42,6 +42,7 @@ export interface Trip {
   budget: number;
   notes: string | null;
   itinerary: ItineraryItem[];
+  image: string | null;
 }
 
 

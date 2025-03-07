@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule, SupportComponent],
   templateUrl: './account.component.html',
-  styleUrl: './account.component.css',
+  
 })
 export class AccountComponent implements OnInit {
   activeSection: string = 'about';

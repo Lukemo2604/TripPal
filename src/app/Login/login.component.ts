@@ -16,7 +16,7 @@ import { AuthService } from '../services/auth.service';
     SupportComponent
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  
 })
 export class LoginComponent {
   isSignupVisible = false;

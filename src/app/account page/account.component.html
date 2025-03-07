@@ -1,234 +1,215 @@
-<div class="account-container">
-    <!-- Sidebar Card -->
-    <div class="sidebar">
-      <button
-        class="primary-btn"
+<div class="min-h-screen bg-black text-white flex flex-col lg:flex-row">
+  <!-- Sidebar -->
+  <aside class="lg:w-1/4 p-6 pt-40 bg-gray-800">
+    <nav class="space-y-4">
+      <button 
         (click)="setActiveSection('about')"
-        [class.active]="activeSection === 'about'"
-      >
+        [ngClass]="{'bg-[#65ccf5] text-white': activeSection==='about', 'bg-transparent text-gray-300': activeSection!=='about'}"
+        class="w-full py-2 rounded-md font-semibold transition hover:bg-[#65ccf5] hover:text-white">
         About
       </button>
-      <button
-        class="primary-btn"
+      <button 
         (click)="setActiveSection('preferences')"
-        [class.active]="activeSection === 'preferences'"
-      >
+        [ngClass]="{'bg-[#65ccf5] text-white': activeSection==='preferences', 'bg-transparent text-gray-300': activeSection!=='preferences'}"
+        class="w-full py-2 rounded-md font-semibold transition hover:bg-[#65ccf5] hover:text-white">
         Preferences
       </button>
-      <button
-        class="primary-btn"
+      <button 
         (click)="setActiveSection('family')"
-        [class.active]="activeSection === 'family'"
-      >
+        [ngClass]="{'bg-[#65ccf5] text-white': activeSection==='family', 'bg-transparent text-gray-300': activeSection!=='family'}"
+        class="w-full py-2 rounded-md font-semibold transition hover:bg-[#65ccf5] hover:text-white">
         Family Management
       </button>
-      <button class="danger-btn" (click)="logout()">Logout</button>
-    </div>
-  
-    <!-- Main Content Area -->
-    <div class="content">
-      <!-- ABOUT SECTION -->
-      <div *ngIf="activeSection === 'about'">
-        <h2>About</h2>
-        <p>Welcome to your account page. Here you can manage your profile settings.</p>
-  
-        <div *ngIf="userData; else loading">
-          <form (ngSubmit)="saveAbout()">
-            <div>
-              <label for="username">Username:</label>
-              <input id="username" [(ngModel)]="editUser.username" name="username" required />
+      <button (click)="logout()"
+        class="w-full py-2 rounded-md font-semibold bg-red-500 text-white hover:bg-red-600 transition">
+        Logout
+      </button>
+    </nav>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 p-6 bg-gradient-to-b from-black to-white text-black">
+    <!-- ABOUT SECTION -->
+    <section *ngIf="activeSection === 'about'" class="mb-10">
+      <h2 class="text-[#65ccf5] font-bold text-5xl" style=" font-family: &quot;Nothing You Could Do&quot;, cursive;">About</h2>
+      <p class="mb-6 text-[#65ccf5] font-bold text-xl">Welcome to your account page. Here you can manage your profile settings.</p>
+      <div *ngIf="userData; else loading" class="bg-white p-6 rounded-lg shadow-md">
+        <form (ngSubmit)="saveAbout()" class="space-y-4">
+          <div>
+            <label for="username" class="block text-gray-700 font-medium mb-1">Username:</label>
+            <input id="username" [(ngModel)]="editUser.username" name="username" required 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+          </div>
+          <div>
+            <label for="email" class="block text-gray-700 font-medium mb-1">Email:</label>
+            <input id="email" type="email" [(ngModel)]="editUser.email" name="email" required 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+          </div>
+          <div>
+            <label for="aboutField" class="block text-gray-700 font-medium mb-1">About:</label>
+            <textarea id="aboutField" rows="3" [(ngModel)]="editUser.about" name="aboutField" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"></textarea>
+          </div>
+          <!-- New fields -->
+          <div>
+            <label for="address" class="block text-gray-700 font-medium mb-1">Address:</label>
+            <input id="address" [(ngModel)]="editUser.address" name="address" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+          </div>
+          <div>
+            <label for="phone" class="block text-gray-700 font-medium mb-1">Phone:</label>
+            <input id="phone" type="tel" [(ngModel)]="editUser.phone" name="phone" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+          </div>
+          <div>
+            <label for="postcode" class="block text-gray-700 font-medium mb-1">Postcode:</label>
+            <input id="postcode" [(ngModel)]="editUser.postcode" name="postcode" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+          </div>
+          <div>
+            <label for="dob" class="block text-gray-700 font-medium mb-1">Date of Birth:</label>
+            <input id="dob" type="date" [(ngModel)]="editUser.dob" name="dob" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+          </div>
+          <button type="submit" class="w-full bg-[#65ccf5] text-white font-semibold py-2 rounded-md hover:bg-[#4db5dd] transition">
+            Save About Info
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- PREFERENCES SECTION -->
+    <section *ngIf="activeSection === 'preferences'" class="mb-10">
+      <h2 class="text-[#65ccf5] font-bold text-5xl" style=" font-family: &quot;Nothing You Could Do&quot;, cursive;">Preferences</h2>
+      <p class="mb-6 text-[#65ccf5] font-bold text-xl">Update your personal preferences here.</p>
+      <div *ngIf="userData; else loading" class="bg-white p-6 rounded-lg shadow-md">
+        <!-- Current preferences list -->
+        <ul class="space-y-3 mb-6">
+          <li *ngFor="let pref of userData.preferences; let i = index" class="flex items-center justify-between">
+            <span>{{ pref }}</span>
+            <div class="space-x-2">
+              <button (click)="editPref(i)" class="bg-[#65ccf5] text-white px-3 py-1 rounded hover:bg-[#4db5dd] transition">
+                Edit
+              </button>
+              <button (click)="deletePref(i)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">
+                Delete
+              </button>
             </div>
-  
-            <div>
-              <label for="email">Email:</label>
-              <input id="email" [(ngModel)]="editUser.email" name="email" type="email" required />
-            </div>
-  
-            <div>
-              <label for="aboutField">About:</label>
-              <textarea
-                id="aboutField"
-                [(ngModel)]="editUser.about"
-                name="aboutField"
-                rows="3"
-              ></textarea>
-            </div>
-  
-            <!-- New fields -->
-            <div>
-              <label for="address">Address:</label>
-              <input
-                id="address"
-                [(ngModel)]="editUser.address"
-                name="address"
-              />
-            </div>
-  
-            <div>
-              <label for="phone">Phone:</label>
-              <input
-                id="phone"
-                [(ngModel)]="editUser.phone"
-                name="phone"
-                type="tel"
-              />
-            </div>
-  
-            <div>
-              <label for="postcode">Postcode:</label>
-              <input
-                id="postcode"
-                [(ngModel)]="editUser.postcode"
-                name="postcode"
-              />
-            </div>
-  
-            <div>
-              <label for="dob">Date of Birth:</label>
-              <input
-                id="dob"
-                [(ngModel)]="editUser.dob"
-                name="dob"
-                type="date"
-              />
-            </div>
-  
-            <button class="primary-btn" type="submit">Save About Info</button>
+          </li>
+        </ul>
+        <!-- Edit Preference Form -->
+        <div *ngIf="isEditingPrefIndex !== null" class="mb-6">
+          <h4 class="font-semibold mb-2">Edit Preference</h4>
+          <form (ngSubmit)="savePref()" class="flex space-x-3">
+            <input [(ngModel)]="editPrefValue" name="editPrefValue" required 
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+            <button type="submit" class="bg-[#65ccf5] text-white px-4 py-2 rounded hover:bg-[#4db5dd] transition">
+              Save
+            </button>
+            <button (click)="cancelPrefEdit()" type="button" class="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 transition">
+              Cancel
+            </button>
           </form>
         </div>
+        <!-- Add New Preference Form -->
+        <h4 class="font-semibold mb-2">Add New Preference</h4>
+        <form (ngSubmit)="addPref()" class="flex space-x-3">
+          <input [(ngModel)]="newPref" name="newPref" placeholder="e.g. 'cooking'" required 
+            class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+          <button type="submit" class="bg-[#65ccf5] text-white px-4 py-2 rounded hover:bg-[#4db5dd] transition">
+            Add
+          </button>
+        </form>
       </div>
-  
-      <!-- PREFERENCES SECTION -->
-      <div *ngIf="activeSection === 'preferences'">
-        <h2>Preferences</h2>
-        <p>Update your personal preferences here.</p>
-  
-        <div *ngIf="userData; else loading">
-          <!-- Display current preferences as a list -->
-          <ul>
-            <li *ngFor="let pref of userData.preferences; let i = index">
-              {{ pref }}
-              <button class="primary-btn" (click)="editPref(i)">Edit</button>
-              <button class="danger-btn" (click)="deletePref(i)">Delete</button>
-            </li>
-          </ul>
-  
-          <!-- If editing a preference, show a small edit form -->
-          <div *ngIf="isEditingPrefIndex !== null">
-            <h4>Edit Preference</h4>
-            <form (ngSubmit)="savePref()">
-              <input
-                [(ngModel)]="editPrefValue"
-                name="editPrefValue"
-                required
-              />
-              <button class="primary-btn" type="submit">Save</button>
-              <button class="secondary-btn" (click)="cancelPrefEdit()" type="button">Cancel</button>
+    </section>
+
+    <!-- FAMILY SECTION -->
+    <section *ngIf="activeSection === 'family'" class="mb-10">
+      <h2 class="text-[#65ccf5] font-bold text-5xl" style=" font-family: &quot;Nothing You Could Do&quot;, cursive;">Family Management</h2>
+      <p class="mb-6 text-[#65ccf5] font-bold text-xl">Add, edit, and remove family members and their preferences.</p>
+      <div *ngIf="userData; else loading" class="bg-white p-6 rounded-lg shadow-md space-y-6">
+        <!-- List family members -->
+        <div *ngFor="let member of userData.familyMembers; let mIndex = index" class="border-b border-gray-200 pb-4">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xl font-semibold">{{ member.name }}</h4>
+            <div>
+              <button *ngIf="editMemberIndex === mIndex; else viewMemberName" (click)="saveFamilyMemberName(mIndex)" class="bg-[#65ccf5] text-white px-3 py-1 rounded hover:bg-[#4db5dd] transition">
+                Save
+              </button>
+              <ng-template #viewMemberName>
+                <button (click)="startEditMember(mIndex, member.name)" class="bg-[#65ccf5] text-white px-3 py-1 rounded hover:bg-[#4db5dd] transition">
+                  Edit Name
+                </button>
+              </ng-template>
+              <button (click)="deleteFamilyMember(mIndex)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition ml-2">
+                Remove
+              </button>
+            </div>
+          </div>
+          <!-- Family Member Preferences -->
+          <div *ngIf="member.preferences?.length > 0" class="mt-3">
+            <ul class="space-y-2">
+              <li *ngFor="let famPref of member.preferences; let fpIndex = index" class="flex items-center justify-between">
+                <span>{{ famPref }}</span>
+                <div class="space-x-2">
+                  <button (click)="editFamilyPref(mIndex, fpIndex)" class="bg-[#65ccf5] text-white px-3 py-1 rounded hover:bg-[#4db5dd] transition">
+                    Edit
+                  </button>
+                  <button (click)="deleteFamilyPref(mIndex, fpIndex)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">
+                    Delete
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- Edit existing family preference -->
+          <div *ngIf="isEditingFamPref?.memberIndex === mIndex && isEditingFamPref?.prefIndex !== null" class="mt-3">
+            <h5 class="font-semibold mb-2">Edit Preference</h5>
+            <form (ngSubmit)="saveFamilyPref()" class="flex space-x-3">
+              <input [(ngModel)]="editFamilyPrefValue" name="editFamilyPrefValue" required 
+                class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+              <button type="submit" class="bg-[#65ccf5] text-white px-4 py-2 rounded hover:bg-[#4db5dd] transition">
+                Save
+              </button>
+              <button (click)="cancelFamilyPrefEdit()" type="button" class="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 transition">
+                Cancel
+              </button>
             </form>
           </div>
-  
-          <!-- Add new preference form -->
-          <h4>Add New Preference</h4>
-          <form (ngSubmit)="addPref()">
-            <input
-              [(ngModel)]="newPref"
-              name="newPref"
-              placeholder="e.g. 'cooking'"
-              required
-            />
-            <button class="primary-btn" type="submit">Add</button>
-          </form>
-        </div>
-      </div>
-  
-      <!-- FAMILY SECTION -->
-      <div *ngIf="activeSection === 'family'">
-        <h2>Family Management</h2>
-        <p>Add, edit, and remove family members and their preferences.</p>
-  
-        <div *ngIf="userData; else loading">
-          <!-- Display all family members -->
-          <div *ngFor="let member of userData.familyMembers; let mIndex = index" class="family-member">
-            <h4>{{ member.name }}</h4>
-  
-            <!-- Edit family member name -->
-            <form (ngSubmit)="saveFamilyMemberName(mIndex)" *ngIf="editMemberIndex === mIndex; else viewMemberName">
-              <input
-                [(ngModel)]="editMemberName"
-                name="editMemberName"
-                required
-              />
-              <button class="primary-btn" type="submit">Save</button>
-              <button class="secondary-btn" type="button" (click)="cancelMemberEdit()">Cancel</button>
+          <!-- Add new preference for family member -->
+          <div class="mt-3">
+            <h5 class="font-semibold mb-2">Add Preference</h5>
+            <form (ngSubmit)="addFamilyPref(mIndex)" class="flex space-x-3">
+              <input [(ngModel)]="newFamilyPref" name="newFamilyPref" placeholder="e.g. 'movies'" required 
+                class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+              <button type="submit" class="bg-[#65ccf5] text-white px-4 py-2 rounded hover:bg-[#4db5dd] transition">
+                Add
+              </button>
             </form>
-            <ng-template #viewMemberName>
-              <button class="primary-btn" (click)="startEditMember(mIndex, member.name)">Edit Name</button>
-            </ng-template>
-  
-            <!-- Family member preferences -->
-            <div *ngIf="member.preferences && member.preferences.length > 0; else noFamPrefs">
-              <ul>
-                <li *ngFor="let famPref of member.preferences; let fpIndex = index">
-                  {{ famPref }}
-                  <button class="primary-btn" (click)="editFamilyPref(mIndex, fpIndex)">Edit</button>
-                  <button class="danger-btn" (click)="deleteFamilyPref(mIndex, fpIndex)">Delete</button>
-                </li>
-              </ul>
-            </div>
-            <ng-template #noFamPrefs>
-              <p>No preferences for this family member yet.</p>
-            </ng-template>
-  
-            <!-- Edit existing family preference -->
-            <div *ngIf="isEditingFamPref?.memberIndex === mIndex && isEditingFamPref?.prefIndex !== null">
-              <h5>Edit Preference</h5>
-              <form (ngSubmit)="saveFamilyPref()">
-                <input
-                  [(ngModel)]="editFamilyPrefValue"
-                  name="editFamilyPrefValue"
-                  required
-                />
-                <button class="primary-btn" type="submit">Save</button>
-                <button class="secondary-btn" (click)="cancelFamilyPrefEdit()" type="button">Cancel</button>
-              </form>
-            </div>
-  
-            <!-- Add new preference to this family member -->
-            <h5>Add Preference</h5>
-            <form (ngSubmit)="addFamilyPref(mIndex)">
-              <input
-                [(ngModel)]="newFamilyPref"
-                name="newFamilyPref"
-                placeholder="e.g. 'movies'"
-                required
-              />
-              <button class="primary-btn" type="submit">Add</button>
-            </form>
-  
-            <!-- Remove family member entirely -->
-            <button class="danger-btn" (click)="deleteFamilyMember(mIndex)">Remove Family Member</button>
           </div>
-  
-          <!-- Add new family member -->
-          <h4>Add New Family Member</h4>
-          <form (ngSubmit)="addFamilyMember()">
-            <input
-              [(ngModel)]="newMemberName"
-              name="newMemberName"
-              placeholder="Family member name"
-              required
-            />
-            <button class="primary-btn" type="submit">Add Member</button>
+        </div>
+        <!-- Add new family member -->
+        <div class="mt-6">
+          <h4 class="font-semibold mb-2">Add New Family Member</h4>
+          <form (ngSubmit)="addFamilyMember()" class="flex space-x-3">
+            <input [(ngModel)]="newMemberName" name="newMemberName" placeholder="Family member name" required 
+              class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"/>
+            <button type="submit" class="bg-[#65ccf5] text-white px-4 py-2 rounded hover:bg-[#4db5dd] transition">
+              Add Member
+            </button>
           </form>
         </div>
       </div>
-  
-    </div>
-  </div>
-  
-  <ng-template #loading>
-    <p>Loading user data...</p>
-  </ng-template>
-  
-  <support></support>
-  
+    </section>
+
+    <ng-template #loading>
+      <p class="text-center text-gray-400">Loading user data...</p>
+    </ng-template>
+
+    <support></support>
+  </main>
+</div>
+
+
+
+
