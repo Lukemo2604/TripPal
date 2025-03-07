@@ -29,6 +29,12 @@ export interface ItineraryItem {
   imports: [CommonModule, GoogleMapsModule],
   template: `
     <div class="map-container relative w-full h-full">
+      <button 
+        (click)="toggleMapType()" 
+        style="position: absolute; top: 1rem; left: 1rem; z-index: 1000; background: #65ccf5; color: white; padding: 0.5rem 1rem; border-radius: 4px;">
+        {{ isSatelliteView ? 'Switch to Styled Map' : 'Switch to Satellite View' }}
+      </button>
+
       <google-map
         [center]="center"
         [zoom]="zoom"
@@ -62,8 +68,12 @@ export class TripMapComponent implements OnInit {
   zoom = 12;
 
   mapOptions: google.maps.MapOptions = {
+    mapTypeId: 'roadmap',
+    mapTypeControl: false,
     styles: tripPalMapStyles,
   };
+
+  isSatelliteView = false;
 
   ngOnInit(): void {
     // If we have a location from the parent, geocode it to recenter the map
@@ -127,13 +137,23 @@ export class TripMapComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      if (this.googleMap && this.googleMap.googleMap) {
-        const map: google.maps.Map = this.googleMap.googleMap;
-        google.maps.event.trigger(map, 'resize');
-      }
-    }, 200);
+  toggleMapType(): void {
+    this.isSatelliteView = !this.isSatelliteView;
+    if (this.isSatelliteView) {
+      // Use 'hybrid' for satellite imagery with labels
+      this.mapOptions = {
+        ...this.mapOptions,
+        mapTypeId: 'hybrid',
+        styles: [] // Remove custom styles so that labels appear
+      };
+    } else {
+      // Revert back to the styled roadmap view
+      this.mapOptions = {
+        ...this.mapOptions,
+        mapTypeId: 'roadmap',
+        styles: tripPalMapStyles
+      };
+    }
   }
   
   

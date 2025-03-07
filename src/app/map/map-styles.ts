@@ -1,20 +1,10 @@
 export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
-    
     {
         "featureType": "all",
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "saturation": 36
-            },
-            {
-                "color": "#333333"
-            },
-            {
-                "lightness": 40
-            },
-            {
-                "visibility": "on"
+                "color": "#ffffff"
             }
         ]
     },
@@ -23,22 +13,10 @@ export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
         "elementType": "labels.text.stroke",
         "stylers": [
             {
-                "visibility": "on"
+                "color": "#000000"
             },
             {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.icon",
-        "stylers": [
-            {
-                "visibility": "on"
+                "lightness": 13
             }
         ]
     },
@@ -47,10 +25,7 @@ export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#fefefe"
-            },
-            {
-                "lightness": 20
+                "color": "#000000"
             }
         ]
     },
@@ -59,49 +34,22 @@ export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
         "elementType": "geometry.stroke",
         "stylers": [
             {
-                "color": "#fefefe"
+                "color": "#144b53"
             },
             {
-                "lightness": 17
+                "lightness": 14
             },
             {
-                "weight": 1.2
+                "weight": 1.4
             }
         ]
     },
     {
         "featureType": "landscape",
-        "elementType": "geometry",
+        "elementType": "all",
         "stylers": [
             {
-                "color": "#f5f5f5"
-            },
-            {
-                "lightness": 20
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#d5d5d5"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape.man_made",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#7574c0"
-            },
-            {
-                "saturation": "-37"
-            },
-            {
-                "lightness": "75"
+                "color": "#08304b"
             }
         ]
     },
@@ -110,49 +58,10 @@ export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#f5f5f5"
+                "color": "#0c4152"
             },
             {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "poi.business",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#7574c0"
-            },
-            {
-                "saturation": "-2"
-            },
-            {
-                "lightness": "53"
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "color": "#dedede"
-            },
-            {
-                "lightness": 21
-            }
-        ]
-    },
-    {
-        "featureType": "poi.park",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#7574c0"
-            },
-            {
-                "lightness": "69"
+                "lightness": 5
             }
         ]
     },
@@ -161,10 +70,7 @@ export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "color": "#7574c0"
-            },
-            {
-                "lightness": "25"
+                "color": "#000000"
             }
         ]
     },
@@ -173,23 +79,17 @@ export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
         "elementType": "geometry.stroke",
         "stylers": [
             {
-                "color": "#ffffff"
+                "color": "#0b434f"
             },
             {
-                "lightness": 29
-            },
-            {
-                "weight": 0.2
+                "lightness": 25
             }
         ]
     },
     {
-        "featureType": "road.highway",
-        "elementType": "labels.text.fill",
+        "featureType": "road.arterial",
+        "elementType": "geometry.fill",
         "stylers": [
-            {
-                "lightness": "38"
-            },
             {
                 "color": "#000000"
             }
@@ -197,13 +97,13 @@ export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
     },
     {
         "featureType": "road.arterial",
-        "elementType": "geometry",
+        "elementType": "geometry.stroke",
         "stylers": [
             {
-                "color": "#ffffff"
+                "color": "#0b3d51"
             },
             {
-                "lightness": 18
+                "lightness": 16
             }
         ]
     },
@@ -212,34 +112,25 @@ export const tripPalMapStyles: google.maps.MapTypeStyle[] = [
         "elementType": "geometry",
         "stylers": [
             {
-                "color": "#ffffff"
-            },
-            {
-                "lightness": 16
+                "color": "#000000"
             }
         ]
     },
     {
         "featureType": "transit",
-        "elementType": "geometry",
+        "elementType": "all",
         "stylers": [
             {
-                "color": "#f2f2f2"
-            },
-            {
-                "lightness": 19
+                "color": "#146474"
             }
         ]
     },
     {
         "featureType": "water",
-        "elementType": "geometry",
+        "elementType": "all",
         "stylers": [
             {
-                "color": "#e9e9e9"
-            },
-            {
-                "lightness": 17
+                "color": "#021019"
             }
         ]
     }
