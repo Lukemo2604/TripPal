@@ -33,9 +33,9 @@ export class TripComponent implements OnInit {
   trip: Trip | null = null;       
   editTrip: Trip | null = null;   
   expandFlights = false;
-  // We store an array of day objects, each with dayIndex and date
+  // store an array of day objects, each with dayIndex and date
   days: DayInfo[] = [];
-  // For each day, we keep a "new activity" form object in a dictionary
+  // For each day, keep a "new activity" form object in a dictionary
   newActivityForDay: { [dayIndex: number]: ItineraryItem } = {};
   expandedDays: { [key: number]: boolean } = {};
   recommendations: any[] = [];
@@ -146,7 +146,7 @@ export class TripComponent implements OnInit {
 
   // New method to generate recommendations
   getRecommendations(): void {
-    // Ensure we have the trip and user data loaded.
+    // Ensure the trip and user data loaded.
     if (!this.editTrip || !this.editTrip.location) {
       console.error("Trip or trip location is not set.");
       return;

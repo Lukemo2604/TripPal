@@ -8,7 +8,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(
-      // We can directly add the function-based interceptor here:
       withInterceptors([authInterceptor])
     )
   ]

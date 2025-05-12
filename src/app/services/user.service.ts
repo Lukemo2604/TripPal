@@ -33,7 +33,7 @@ export class UserService {
   }
 
   updateUser(data: any): Observable<any> {
-    // We'll send the entire updated user object in PATCH /api/user
+    // send the entire updated user object in PATCH /api/user
     return this.http.patch(`${this.baseUrl}/user`, data);
   }
 

@@ -19,7 +19,7 @@ export class TripsComponent implements OnInit {
   showCreateModal = false;
   newTrip: Partial<Trip> = {};
 
-  // References to the create trip form inputs (will be available after modal opens)
+  // References to the create trip form inputs 
   @ViewChild('newTripLocation') newTripLocationRef!: ElementRef;
   @ViewChild('newTripAccommodation') newTripAccommodationRef!: ElementRef;
 

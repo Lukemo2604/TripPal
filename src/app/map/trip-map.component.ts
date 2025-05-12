@@ -76,7 +76,7 @@ export class TripMapComponent implements OnInit {
   isSatelliteView = false;
 
   ngOnInit(): void {
-    // If we have a location from the parent, geocode it to recenter the map
+    // If a location from the parent is here, geocode it to recenter the map
     if (this.location) {
       this.geocodeAddress(this.location);
     }

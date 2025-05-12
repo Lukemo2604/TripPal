@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,            // <-- add to imports
+    FormsModule,           
     RouterOutlet,
     RouterModule,
     SupportComponent
@@ -21,7 +21,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent {
   isSignupVisible = false;
 
-  // We'll bind these to the login form
+  // bind these to the login form
   username = '';
   password = '';
 
@@ -42,7 +42,7 @@ export class LoginComponent {
   }
 
   login() {
-    // Use this.username & this.password
+    
     this.authService.login(this.username, this.password).subscribe({
       next: (res: any) => {
         if (res.token) {

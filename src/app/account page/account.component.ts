@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // We need this for [(ngModel)]
+import { FormsModule } from '@angular/forms'; 
 import { SupportComponent } from '../support/support.component';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
